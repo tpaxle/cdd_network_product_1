@@ -1,43 +1,88 @@
-# CLOUD DEVOPS DAYS -- NetDevops
+# Cloud and Devops Days
 
-[Test](inventory/documentation/fabric/AZ1-documentation.md)
-## Welcome to GitHub Pages
 
-Aqui
-[Test](inventory/documentation/fabric/AZ1-documentation.md)
+## Project
 
-You can use the [editor on GitHub](https://github.com/tpaxle/cdd_network_product_1/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## Laboratory
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The testing lab will be deployed within the staging workload domain and the following picture represent the current the logical topology:
 
-### Markdown
+image::vm_lab.png[align="center", title-align="Diagram"]
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+### Requirements
 
-- Bulleted
-- List
+Arista Networks supports Ansible for managing devices running the EOS operating system natively through eAPI or CloudVision Portal (CVP). This collection includes a set of ansible roles and modules to help kick-start the deployments. The various roles and templates provided are designed to be customized and extended based on the specific needs.
+Full documentation for the collection is available on read-the-docs: https://avd.sh/en/latest/index.html
 
-1. Numbered
-2. List
+### EVE-NG Network simulator.
 
-**Bold** and _Italic_ and `Code` text
+The following diagram represents the network physical elements that will be part of the EVPN fabric deployment and the testcase scenario for OHE Dallas.
 
-[Link](url) and ![Image](src)
-```
+image::eve_ohe_seed_dallas.png[align="center", title-align="Diagram"]
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+### Github
 
-### Jekyll Themes
+Documentation, templates and playbooks will be hosted in the following git repositories:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/tpaxle/cdd_network_product_1/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+	• ccc-csmo-tools/sdn-playbook-arista-ohe
+	• sdn-ansible-ohe-dallas-testbed
 
-### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Note: Login to GitHub with your N or X credentials. If you cannot login due to invalid permissions. Please, open a ticket on the following service now path.
+
+	• General.
+	• Onboarding user.
+	• Add user.
+	• Parameter1: Follow the help example guide.
+	• ParameterCombo2: Git.
+
+== Lab Environment
+
+AZ1 DOCUMENTATION:
+
+include::inventory/documentation/fabric/AZ1-documentation.adoc[leveloffset=+2]
+
+==== Devices
+
+include::inventory/documentation/devices/SPINE101.adoc[leveloffset=+4]
+
+
+include::inventory/documentation/devices/SPINE102.adoc[leveloffset=+4]
+
+
+include::inventory/documentation/devices/LEAF101.adoc[leveloffset=+4]
+
+
+include::inventory/documentation/devices/LEAF102.adoc[leveloffset=+4]
+
+
+include::inventory/documentation/devices/LEAFB101.adoc[leveloffset=+4]
+
+
+include::inventory/documentation/devices/LEAFB102.adoc[leveloffset=+4]
+
+
+include::inventory/documentation/devices/BLEAF101.adoc[leveloffset=+4]
+
+
+include::inventory/documentation/devices/BLEAF102.adoc[leveloffset=+4]
+
+
+
+## FAQ
+
+Below is described the work structure used on the git repo:
+
+	• A folder for all your inventories with one sub-folder per inventory. An inventory folder contains all your variables for a given environment like host_vars, group_vars, inventory.yml
+	• A folder to store all playbooks. So it is easy to reuse playbooks whatever the inventory is (if you use a coherent syntax)
+	• ansible.cfg at the root of this repository
+
+
+		|------ inventory
+		|       ├    group_vars
+		|       ├    host_vars
+		|       └-   inventoy.yml
+		└------ playbooks
+
