@@ -1,0 +1,5 @@
+---
+- name: Create Doc AZ1
+  hosts: LEAF101
+  roles:
+    - role: san_doc_avd

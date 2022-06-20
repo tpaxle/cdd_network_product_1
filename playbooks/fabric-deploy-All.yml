@@ -24,7 +24,7 @@
     - name: "Copy init files to tftboot"
       shell: "cp -rp ../inventory/intended/configs/* /var/tftpboot/"
       register: "output"
-      changed_when: my_output.rc != 0
+      changed_when: output.rc != 0
     - name: Debug variables
       debug: var=output.stdout_lines
 - name: GENERATE CONFIG AND DOCUMENTATION AZ2
@@ -50,6 +50,12 @@
     - name: "Copy init files to tftboot"
       shell: "cp -rp ../inventory/intended/configs/* /var/tftpboot/"
       register: "output"
-      changed_when: my_output.rc != 0
+      changed_when: output.rc != 0
     - name: Show chages
       debug: var=output.stdout_lines
+
+- name: Create Doc AZ1
+  hosts: LAB01
+  tags: [build]
+  roles:
+    - role: san_doc_avd
