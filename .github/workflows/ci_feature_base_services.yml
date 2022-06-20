@@ -22,12 +22,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Check precommits
+    - name: Checking Code...
       run: |
         python -V
         pre-commit run --hook-stage commit --files ./roles/* ./playbooks/* ./inventor
 
-    - name: Build Configuration checks
+    - name: Checking Ansible configuration...
       run: |
         echo ${{ secrets.VAULT_PASSWORD }} >> .vault      
         ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
