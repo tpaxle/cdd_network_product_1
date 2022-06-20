@@ -1,5 +1,5 @@
 ---
 - name: Create Doc AZ1
-  hosts: GLOBAL
+  hosts: LEAF101
   roles:
     - role: san_doc_avd

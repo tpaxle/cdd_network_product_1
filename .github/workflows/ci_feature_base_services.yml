@@ -25,7 +25,7 @@ jobs:
     - name: Check precommits
       run: |
         python -V
-        pre-commit run --hook-stage commit --files ./*
+        pre-commit run --hook-stage commit --files ./roles/* ./playbooks/* ./inventor
 
     - name: Build Configuration checks
       run: |

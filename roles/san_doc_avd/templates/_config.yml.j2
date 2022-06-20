@@ -8,7 +8,7 @@ include:
   - README.md
   - doc/fabric/AZ1-documentation.md
   - doc/fabric/AZ2-documentation.md
-{%         for host in groups.AZ1 %}
+{%         for host in groups.GLOBAL %}
   - doc/devices/{{ host }}.md
 {%         endfor %}
 
