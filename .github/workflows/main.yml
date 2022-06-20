@@ -5,7 +5,7 @@ name: Release documentation
 on:
   push:
     branches:
-    - 'fix/pipelines'
+    - 'main'
 
 
 env:
