@@ -6,6 +6,8 @@ relative_links:
   collections: true
 include:
   - README.md
+  - doc/fabric/AZ1-documentation.md
+  - doc/fabric/AZ2-documentation.md
 {%         for host in groups.AZ1 %}
   - doc/devices/{{ host }}.md
 {%         endfor %}

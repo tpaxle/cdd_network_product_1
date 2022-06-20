@@ -78,22 +78,22 @@
     dest: "{{ fabric_dir }}/{{ fabric_name }}-documentation.md"
     mode: 0664
 
-- name: Generate fabric point-to-point links summary in csv format.
-  tags: [build, provision, documentation]
-  template:
-    src: fabric/documentation/fabric-p2p-links.j2
-    dest: "{{ fabric_dir }}/{{ fabric_name }}-p2p-links-2.csv"
-    mode: 0664
-  delegate_to: localhost
-  run_once: true
-  check_mode: false
+#- name: Generate fabric point-to-point links summary in csv format.
+#  tags: [build, provision, documentation]
+#  template:
+#    src: fabric/documentation/fabric-p2p-links.j2
+#    dest: "{{ fabric_dir }}/{{ fabric_name }}-p2p-links-2.csv"
+#    mode: 0664
+#  delegate_to: localhost
+#  run_once: true
+#  check_mode: false
 
-- name: Generate fabric topology in csv format.
-  tags: [build, provision, documentation]
-  template:
-    src: fabric/documentation/fabric-topology.j2
-    dest: "{{ fabric_dir }}/{{ fabric_name }}-topology-2.csv"
-    mode: 0664
-  delegate_to: localhost
-  run_once: true
-  check_mode: false
+#- name: Generate fabric topology in csv format.
+#  tags: [build, provision, documentation]
+#  template:
+#    src: fabric/documentation/fabric-topology.j2
+#    dest: "{{ fabric_dir }}/{{ fabric_name }}-topology-2.csv"
+#    mode: 0664
+#  delegate_to: localhost
+#  run_once: true
+#  check_mode: false

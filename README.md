@@ -26,9 +26,6 @@ image::eve_ohe_seed_dallas.png[align="center", title-align="Diagram"]
 
 Documentation, templates and playbooks will be hosted in the following git repositories:
 
-	• ccc-csmo-tools/sdn-playbook-arista-ohe
-	• sdn-ansible-ohe-dallas-testbed
-
 
 Note: Login to GitHub with your N or X credentials. If you cannot login due to invalid permissions. Please, open a ticket on the following service now path.
 
@@ -38,36 +35,38 @@ Note: Login to GitHub with your N or X credentials. If you cannot login due to i
 	• Parameter1: Follow the help example guide.
 	• ParameterCombo2: Git.
 
-== Lab Environment
-
-AZ1 DOCUMENTATION:
-
-include::inventory/documentation/fabric/AZ1-documentation.adoc[leveloffset=+2]
-
-==== Devices
-
-include::inventory/documentation/devices/SPINE101.adoc[leveloffset=+4]
+## Lab Environment
 
 
-include::inventory/documentation/devices/SPINE102.adoc[leveloffset=+4]
+#### AZ1 DOCUMENTATION
 
+- [AZ1 DOCUMENTATION](doc/fabric/AZ1-documentation.md)
 
-include::inventory/documentation/devices/LEAF101.adoc[leveloffset=+4]
+##### Devices
 
+- [host](doc/devices/SPINE101.md)
+- [host](doc/devices/SPINE102.md)
+- [host](doc/devices/LEAF101.md)
+- [host](doc/devices/LEAF102.md)
+- [host](doc/devices/LEAFB101.md)
+- [host](doc/devices/LEAFB102.md)
+- [host](doc/devices/BLEAF101.md)
+- [host](doc/devices/BLEAF102.md)
 
-include::inventory/documentation/devices/LEAF102.adoc[leveloffset=+4]
+#### AZ1 DOCUMENTATION
 
+- [AZ1 DOCUMENTATION](doc/fabric/AZ1-documentation.md)
 
-include::inventory/documentation/devices/LEAFB101.adoc[leveloffset=+4]
+##### Devices
 
-
-include::inventory/documentation/devices/LEAFB102.adoc[leveloffset=+4]
-
-
-include::inventory/documentation/devices/BLEAF101.adoc[leveloffset=+4]
-
-
-include::inventory/documentation/devices/BLEAF102.adoc[leveloffset=+4]
+- [host](doc/devices/SPINE201.md)
+- [host](doc/devices/SPINE202.md)
+- [host](doc/devices/LEAFA201.md)
+- [host](doc/devices/LEAFA202.md)
+- [host](doc/devices/LEAFB201.md)
+- [host](doc/devices/LEAFB202.md)
+- [host](doc/devices/BLEAF201.md)
+- [host](doc/devices/BLEAF202.md)
 
 
 

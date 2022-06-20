@@ -6,5 +6,12 @@ relative_links:
   collections: true
 include:
   - README.md
-  - inventory/documentation/fabric/AZ1-documentation.md
-  - inventory/documentation/fabric/AZ2-documentation.md
+  - doc/devices/SPINE101.md
+  - doc/devices/SPINE102.md
+  - doc/devices/LEAF101.md
+  - doc/devices/LEAF102.md
+  - doc/devices/LEAFB101.md
+  - doc/devices/LEAFB102.md
+  - doc/devices/BLEAF101.md
+  - doc/devices/BLEAF102.md
+

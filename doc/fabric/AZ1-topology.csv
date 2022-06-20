@@ -1,4 +1,4 @@
-Node Type,Node,Node Interface,Peer Type,Peer,Peer Interface
+Node Type,Node,Node Interface,Peer Type,Peer Node,Peer Interface
 l3leaf,BLEAF101,Ethernet1,other,BLEAF201,Ethernet1
 l3leaf,BLEAF101,Ethernet2,other,BLEAF202,Ethernet2
 l3leaf,BLEAF101,Ethernet17,spine,SPINE101,Ethernet3

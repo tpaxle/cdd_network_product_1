@@ -55,14 +55,9 @@
       debug: var=output.stdout_lines
 
 - name: Create Doc AZ1
-  hosts: AZ1
+  hosts: LAB01
   tags: [build]
   roles:
      - role: san_doc_avd
 
-- name: Create Doc AZ2
-  hosts: AZ2
-  tags: [build]  
-  roles:
-     - role: san_doc_avd
 
