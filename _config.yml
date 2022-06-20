@@ -18,9 +18,10 @@ include:
   - doc/devices/LEAFB202.md
   - doc/devices/SPINE201.md
   - doc/devices/SPINE202.md
-  - doc/devices/SPINE101.md
-  - doc/devices/SPINE102.md
   - doc/devices/LEAF101.md
   - doc/devices/LEAF102.md
   - doc/devices/LEAFB101.md
   - doc/devices/LEAFB102.md
+  - doc/devices/SPINE101.md
+  - doc/devices/SPINE102.md
+
