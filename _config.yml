@@ -1,1 +1,10 @@
+plugins:
+  - jekyll-relative-links
 theme: jekyll-theme-minimal
+relative_links:
+  enabled: true
+  collections: true
+include:
+  - README.md
+  - inventory/documentation/fabric/AZ1-documentation.md
+  - inventory/documentation/fabric/AZ2-documentation.md
