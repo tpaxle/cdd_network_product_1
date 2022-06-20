@@ -1,7 +1,6 @@
 Node Type,Node,Node Interface,Peer Type,Peer Node,Peer Interface,Node Interface Enabled
 l3leaf,BLEAF101,Ethernet1,other,BLEAF201,Ethernet1,True
 l3leaf,BLEAF101,Ethernet2,other,BLEAF202,Ethernet2,True
-l3leaf,BLEAF101,Ethernet3,router,IX_FW,tex-txdc-mpls-01 Te2/1,True
 l3leaf,BLEAF101,Ethernet17,spine,SPINE101,Ethernet3,True
 l3leaf,BLEAF101,Ethernet18,spine,SPINE102,Ethernet3,True
 l3leaf,BLEAF101,Ethernet19,mlag_peer,BLEAF102,Ethernet19,True
