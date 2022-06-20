@@ -1,6 +1,6 @@
 ---
 - name: Manage Arista EOS EVPN/VXLAN Configuration
-  hosts: LEAF101
+  hosts: AZ1
   tasks:
     - name: generate intended variables
       tags: [build, generate]
