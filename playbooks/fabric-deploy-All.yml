@@ -58,6 +58,4 @@
   hosts: LAB01
   tags: [build]
   roles:
-     - role: san_doc_avd
-
-
+    - role: san_doc_avd

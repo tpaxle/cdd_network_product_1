@@ -2,10 +2,10 @@
 - name: Create Doc AZ1
   hosts: AZ1
   roles:
-     - role: san_doc_avd
+    - role: san_doc_avd
 
 - name: Create Doc AZ2
   hosts: AZ2
   roles:
-     - role: san_doc_avd
+    - role: san_doc_avd
 
