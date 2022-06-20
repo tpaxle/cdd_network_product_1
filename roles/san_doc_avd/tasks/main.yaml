@@ -49,9 +49,17 @@
 - name: new README
   tags: [build, provision, documentation, test]
   copy:
-    content: "{{ lookup('template','Readme.adoc.j2') }}"
+    content: "{{ lookup('template','Readme.md.j2') }}"
     dest: "README.md"
     mode: 0664
+
+- name: new Githubpages
+  tags: [build, provision, documentation, test]
+  copy:
+    content: "{{ lookup('template','_config.yml.j2') }}"
+    dest: "_config.yml"
+    mode: 0664
+
 
 - name: new doc
   tags: [build, provision, documentation, test]

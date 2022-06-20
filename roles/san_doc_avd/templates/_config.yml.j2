@@ -1,0 +1,12 @@
+plugins:
+  - jekyll-relative-links
+theme: jekyll-theme-minimal
+relative_links:
+  enabled: true
+  collections: true
+include:
+  - README.md
+{%         for host in groups.AZ1 %}
+  - doc/devices/{{ host }}.md
+{%         endfor %}
+
