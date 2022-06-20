@@ -53,9 +53,3 @@
       changed_when: output.rc != 0
     - name: Show chages
       debug: var=output.stdout_lines
-
-- name: Create Doc AZ1
-  hosts: LAB01
-  tags: [build]
-  roles:
-    - role: san_doc_avd
