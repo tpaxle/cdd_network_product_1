@@ -47,6 +47,7 @@
 
 
 - name: new README
+  run_once: true
   tags: [build, provision, documentation, test]
   copy:
     content: "{{ lookup('template','Readme.md.j2') }}"
@@ -55,6 +56,7 @@
 
 - name: new Githubpages
   tags: [build, provision, documentation, test]
+  run_once: true
   copy:
     content: "{{ lookup('template','_config.yml.j2') }}"
     dest: "_config.yml"
