@@ -1,0 +1,7 @@
+skip_list:
+  - meta-no-info
+  - var-naming
+
+exclude_paths:
+  - ./inventory/intended/
+  - .github/

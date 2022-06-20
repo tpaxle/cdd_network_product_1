@@ -1,0 +1,9 @@
+vault-pass
+playbooks/kubeconfig
+roles/san_linux_install_cert
+roles/docker_ohe
+roles/ghe_register_runner_agent
+roles/docker_buildx_ohe
+roles/install_git_redhat
+.vault
+playbook
