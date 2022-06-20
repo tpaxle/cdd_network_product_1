@@ -55,7 +55,7 @@ Note: Login to GitHub with your N or X credentials. If you cannot login due to i
 
 #### AZ1 DOCUMENTATION
 
-- [AZ1 DOCUMENTATION](doc/fabric/AZ1-documentation.md)
+- [AZ1 DOCUMENTATION](doc/fabric/AZ2-documentation.md)
 
 ##### Devices
 
