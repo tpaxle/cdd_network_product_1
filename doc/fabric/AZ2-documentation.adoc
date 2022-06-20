@@ -1,0 +1,64 @@
+# AZ2
+
+# Table of Contents
+
+<!-- toc -->
+<!-- toc -->
+# Fabric Switches and Management IP
+
+| POD | Type | Node | Management IP | Platform | Provisioned in CloudVision |
+| --- | ---- | ---- | ------------- | -------- | -------------------------- |
+| LAB1_AZ2 | l3leaf | BLEAF201 | - | - | Provisioned |
+| LAB1_AZ2 | l3leaf | BLEAF202 | - | - | Provisioned |
+| LAB1_AZ2 | l3leaf | LEAFA201 | 10.0.0.131/24 | - | Provisioned |
+| LAB1_AZ2 | l3leaf | LEAFA202 | - | - | Provisioned |
+| LAB1_AZ2 | l3leaf | LEAFB201 | - | - | Provisioned |
+| LAB1_AZ2 | l3leaf | LEAFB202 | - | - | Provisioned |
+| LAB1_AZ2 | spine | SPINE201 | - | - | Provisioned |
+| LAB1_AZ2 | spine | SPINE202 | - | - | Provisioned |
+
+> Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
+
+## Fabric Switches with inband Management IP
+| POD | Type | Node | Management IP | Inband Interface |
+| --- | ---- | ---- | ------------- | ---------------- |
+
+# Fabric Topology
+
+| Type | Node | Node Interface | Peer Type | Peer Node | Peer Interface |
+| ---- | ---- | -------------- | --------- | ----------| -------------- |
+
+# Fabric IP Allocation
+
+## Fabric Point-To-Point Links
+
+| Uplink IPv4 Pool | Available Addresses | Assigned addresses | Assigned Address % |
+| ---------------- | ------------------- | ------------------ | ------------------ |
+| 10.129.4.0/23 | 512 | 0 | 0.0 % |
+
+## Point-To-Point Links Node Allocation
+
+| Node | Node Interface | Node IP Address | Peer Node | Peer Interface | Peer IP Address |
+| ---- | -------------- | --------------- | --------- | -------------- | --------------- |
+
+## Loopback Interfaces (BGP EVPN Peering)
+
+| Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
+| ------------- | ------------------- | ------------------ | ------------------ |
+| 10.129.0.0/24 | 256 | 0 | 0.0 % |
+
+## Loopback0 Interfaces Node Allocation
+
+| POD | Node | Loopback0 |
+| --- | ---- | --------- |
+
+## VTEP Loopback VXLAN Tunnel Source Interfaces (VTEPs Only)
+
+| VTEP Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
+| --------------------- | ------------------- | ------------------ | ------------------ |
+| 10.129.1.0/24 | 256 | 0 | 0.0 % |
+
+## VTEP Loopback Node allocation
+
+| POD | Node | Loopback1 |
+| --- | ---- | --------- |
