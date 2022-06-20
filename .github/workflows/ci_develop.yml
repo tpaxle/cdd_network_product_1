@@ -28,26 +28,5 @@ jobs:
     - name: Build Configuration
       run: |
         echo ${{ secrets.VAULT_PASSWORD }} >> .vault      
-        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ --ask-vault-password -t build --vault-password-file .vault
+        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
 
-
-#    - name: ansible-playbook build
-#      run:  |
-#         ansible-playbook playbooks/fabric-deploy-AZ1.yml --tags build
-#         ansible-playbook playbooks/fabric-deploy-AZ2.yml --tags build
-
-#         unset http_proxy
-#         unset HTTP_PROXY
-#         unset HTTPS_PROXY
-#         unset https_proxy
-#         env | grep http
-#         ansible-playbook  playbooks/SAN_Create_DOC.yml
-
-#    - name: Github Status
-#      run:  |
-#         git status
-
-#    - name: Add & Commit
-#      uses: EndBug/add-and-commit@v7.0.0
-#      with:
-#        message: "TMP-New doc"
