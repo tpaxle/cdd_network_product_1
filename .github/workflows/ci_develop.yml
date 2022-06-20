@@ -25,6 +25,12 @@ jobs:
         python -V
         pre-commit run --hook-stage commit --files ./*
 
+    - name: Build Configuration
+      run: |
+        echo ${{ secrets.VAULT_PASSWORD }} >> .vault      
+        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ --ask-vault-password -t build --vault-password-file .vault
+
+
 #    - name: ansible-playbook build
 #      run:  |
 #         ansible-playbook playbooks/fabric-deploy-AZ1.yml --tags build
