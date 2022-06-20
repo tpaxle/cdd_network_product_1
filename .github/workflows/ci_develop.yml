@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI Test pipeliens
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches:
+    - 'develop'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: lab
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Check precommits
+      run: |
+        pre-commit run --hook-stage commit --files ./*
+
+#    - name: ansible-playbook build
+#      run:  |
+#         ansible-playbook playbooks/fabric-deploy-AZ1.yml --tags build
+#         ansible-playbook playbooks/fabric-deploy-AZ2.yml --tags build
+
+#         unset http_proxy
+#         unset HTTP_PROXY
+#         unset HTTPS_PROXY
+#         unset https_proxy
+#         env | grep http
+#         ansible-playbook  playbooks/SAN_Create_DOC.yml
+
+#    - name: Github Status
+#      run:  |
+#         git status
+
+#    - name: Add & Commit
+#      uses: EndBug/add-and-commit@v7.0.0
+#      with:
+#        message: "TMP-New doc"
