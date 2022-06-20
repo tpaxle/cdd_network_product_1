@@ -34,11 +34,6 @@ jobs:
 
     - name: ansible-playbook build
       run:  |
-         unset http_proxy
-         unset HTTP_PROXY
-         unset HTTPS_PROXY
-         unset https_proxy
-         cd playbook
          ansible-playbook -i inventory/ --vault-password-file .vault playbooks/fabric-deploy-All.yml -t build
 
     - name: Add & Commit
