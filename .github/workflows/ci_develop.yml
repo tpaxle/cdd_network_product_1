@@ -33,7 +33,7 @@ jobs:
     - name: Genereting doc...
       run: |
         echo ${{ secrets.VAULT_PASSWORD }} >> .vault      
-        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
+        ansible-playbook playbooks/generate_doc.yml -i inventory/ --vault-password-file .vault
 
     - name: Commiting new doc...
       uses: EndBug/add-and-commit@v9.0.0
@@ -53,6 +53,7 @@ jobs:
 
     - name: Generating Code...
       run: |
+        echo ${{ secrets.VAULT_PASSWORD }} >> .vault            
         ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
 
     - name: Deploying Code on LAB101...
