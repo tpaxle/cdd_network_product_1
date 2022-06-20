@@ -5,7 +5,7 @@ name: Release documentation
 on:
   push:
     branches:
-    - 'main'
+    - 'fix/pipelines'
 
 
 env:
@@ -21,28 +21,12 @@ jobs:
   main:
     environment: services
     # The type of runner that the job will run on
-    runs-on: arista2
+    runs-on: lab
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    - name: Get token Santander-group
-      uses: pzamoran/ghe-githubapp-gettoken@feat/pipfile
-      id: token-group
-      env:
-        GITHUB_APP_IDENTIFIER: ${{ env.APPLICATION_ID }}
-        GITHUB_PRIVATE_KEY: ${{ secrets.APPLICATION_PRIVATE_KEY }}
-      with:
-        args: '--github-organization cloud-competence-center'
-
-    - uses: actions/checkout@v2
-      with:
-        repository: cloud-competence-center/sdn-ansible-network-ohe
-        ref: "{{ env.PLAYBOOK_VERSION }}"
-        token: '${{ steps.token-group.outputs.token }}'
-        path: playbook
 
     - name: Create decrypt ansible vault
       run:  |
@@ -55,8 +39,7 @@ jobs:
          unset HTTPS_PROXY
          unset https_proxy
          cd playbook
-         ansible-playbook -i ../inventory/ --vault-password-file ../.vault playbooks/arista/arista_create_doc.yml
-         cp -rp README.adoc ../
+         ansible-playbook -i inventory/ --vault-password-file .vault playbooks/fabric-deploy-All.yml -t build
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
@@ -67,22 +50,12 @@ jobs:
     needs: main
     environment: services
     # The type of runner that the job will run on
-    runs-on: almmc_redhat_runner
+    runs-on: lab
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    - name: Get token ALM Multicloud
-      uses: pzamoran/ghe-githubapp-gettoken@v0.2.1
-      id: get_workflow_alm_token
-      env:
-        GITHUB_APP_IDENTIFIER: ${{ env.APPLICATION_ID }}
-        GITHUB_PRIVATE_KEY: ${{ secrets.APPLICATION_PRIVATE_KEY }}
-      with:
-        args: '--github-organization alm-multicloud'
-
 
     - name: Bump version and push tag
       id: tag_version
