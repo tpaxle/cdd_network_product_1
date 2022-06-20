@@ -1,0 +1,27 @@
+---
+- name: Manage Arista EOS EVPN/VXLAN Configuration
+  hosts: AZ2
+  tasks:
+    - name: generate intended variables
+      tags: [build, generate]
+      import_role:
+        name: arista.avd.eos_designs
+    - name: generate device intended config and documentation
+      tags: [build, generate]
+      import_role:
+        name: arista.avd.eos_cli_config_gen
+    - name: deploy configuration to device
+      tags: [deploy, never]
+      import_role:
+        name: arista.avd.eos_config_deploy_eapi
+- name: "Playing with Ansible and Git"
+  hosts: localhost
+  connection: local
+  tags: [build]
+  tasks:
+    - name: "Copy init files"
+      shell: "cp -rp ../inventory/intended/configs/* /var/tftpboot/"
+      register: "output"
+      changed_when: output.rc != 0
+    - name: Debug variable
+      debug: var=output.stdout_lines
