@@ -539,6 +539,13 @@ interface defaults
 
 *Inherited from Port-Channel Interface
 
+#### IPv4
+
+| Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
+| --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
+| Ethernet17 | P2P_LINK_TO_SPINE101_Ethernet1 | routed | - | 10.128.4.1/31 | default | 1500 | false | - | - |
+| Ethernet18 | P2P_LINK_TO_SPINE102_Ethernet1 | routed | - | 10.128.4.3/31 | default | 1500 | false | - | - |
+
 ### Ethernet Interfaces Device Configuration
 
 ```eos
@@ -550,6 +557,24 @@ interface Ethernet2
    switchport access vlan 17
    switchport mode access
    spanning-tree portfast
+!
+interface Ethernet17
+   description P2P_LINK_TO_SPINE101_Ethernet1
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.128.4.1/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet18
+   description P2P_LINK_TO_SPINE102_Ethernet1
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.128.4.3/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
 !
 interface Ethernet19
    description MLAG_PEER_LEAF102_Ethernet19
@@ -829,12 +854,14 @@ Global ARP timeout: 270
 
 | Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
 | ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
-| 100 | 10.128.0.1 | enabled | Vlan4093 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+| 100 | 10.128.0.1 | enabled | Ethernet17 <br> Ethernet18 <br> Vlan4093 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
 
 ### OSPF Interfaces
 
 | Interface | Area | Cost | Point To Point |
 | -------- | -------- | -------- | -------- |
+| Ethernet17 | 0.0.0.0 | - | True |
+| Ethernet18 | 0.0.0.0 | - | True |
 | Vlan4093 | 0.0.0.0 | - | True |
 | Loopback0 | 0.0.0.0 | - | - |
 | Loopback1 | 0.0.0.0 | - | - |
@@ -846,6 +873,8 @@ Global ARP timeout: 270
 router ospf 100
    router-id 10.128.0.1
    passive-interface default
+   no passive-interface Ethernet17
+   no passive-interface Ethernet18
    no passive-interface Vlan4093
    max-lsa 12000
 ```
@@ -884,6 +913,8 @@ router ospf 100
 | l3leaf | BLEAF101 | Ethernet20 | mlag_peer | BLEAF102 | Ethernet20 |
 | l3leaf | BLEAF102 | Ethernet17 | spine | SPINE101 | Ethernet4 |
 | l3leaf | BLEAF102 | Ethernet18 | spine | SPINE102 | Ethernet4 |
+| l3leaf | LEAF101 | Ethernet17 | spine | SPINE101 | Ethernet1 |
+| l3leaf | LEAF101 | Ethernet18 | spine | SPINE102 | Ethernet1 |
 | l3leaf | LEAF101 | Ethernet19 | mlag_peer | LEAF102 | Ethernet19 |
 | l3leaf | LEAF101 | Ethernet20 | mlag_peer | LEAF102 | Ethernet20 |
 | l3leaf | LEAF102 | Ethernet17 | spine | SPINE101 | Ethernet2 |
@@ -894,8 +925,6 @@ router ospf 100
 | l3leaf | LEAFB101 | Ethernet20 | mlag_peer | LEAFB102 | Ethernet20 |
 | l3leaf | LEAFB102 | Ethernet17 | spine | SPINE101 | Ethernet6 |
 | l3leaf | LEAFB102 | Ethernet18 | spine | SPINE102 | Ethernet6 |
-| spine | SPINE101 | Ethernet1 | l3leaf | LEAF101 | Ethernet17 |
-| spine | SPINE102 | Ethernet1 | l3leaf | LEAF101 | Ethernet18 |
 
 # Fabric IP Allocation
 
@@ -903,7 +932,7 @@ router ospf 100
 
 | Uplink IPv4 Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ---------------- | ------------------- | ------------------ | ------------------ |
-| 10.128.4.0/23 | 512 | 22 | 4.3 % |
+| 10.128.4.0/23 | 512 | 24 | 4.69 % |
 
 ## Point-To-Point Links Node Allocation
 
@@ -913,6 +942,8 @@ router ospf 100
 | BLEAF101 | Ethernet18 | 10.128.4.59/31 | SPINE102 | Ethernet3 | 10.128.4.58/31 |
 | BLEAF102 | Ethernet17 | 10.128.4.61/31 | SPINE101 | Ethernet4 | 10.128.4.60/31 |
 | BLEAF102 | Ethernet18 | 10.128.4.63/31 | SPINE102 | Ethernet4 | 10.128.4.62/31 |
+| LEAF101 | Ethernet17 | 10.128.4.1/31 | SPINE101 | Ethernet1 | 10.128.4.0/31 |
+| LEAF101 | Ethernet18 | 10.128.4.3/31 | SPINE102 | Ethernet1 | 10.128.4.2/31 |
 | LEAF102 | Ethernet17 | 10.128.4.5/31 | SPINE101 | Ethernet2 | 10.128.4.4/31 |
 | LEAF102 | Ethernet18 | 10.128.4.7/31 | SPINE102 | Ethernet2 | 10.128.4.6/31 |
 | LEAFB101 | Ethernet17 | 10.128.4.9/31 | SPINE101 | Ethernet5 | 10.128.4.8/31 |

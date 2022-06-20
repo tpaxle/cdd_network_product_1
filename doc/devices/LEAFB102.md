@@ -913,6 +913,8 @@ router ospf 100
 | l3leaf | BLEAF101 | Ethernet20 | mlag_peer | BLEAF102 | Ethernet20 |
 | l3leaf | BLEAF102 | Ethernet17 | spine | SPINE101 | Ethernet4 |
 | l3leaf | BLEAF102 | Ethernet18 | spine | SPINE102 | Ethernet4 |
+| l3leaf | LEAF101 | Ethernet17 | spine | SPINE101 | Ethernet1 |
+| l3leaf | LEAF101 | Ethernet18 | spine | SPINE102 | Ethernet1 |
 | l3leaf | LEAF101 | Ethernet19 | mlag_peer | LEAF102 | Ethernet19 |
 | l3leaf | LEAF101 | Ethernet20 | mlag_peer | LEAF102 | Ethernet20 |
 | l3leaf | LEAF102 | Ethernet17 | spine | SPINE101 | Ethernet2 |
@@ -923,8 +925,6 @@ router ospf 100
 | l3leaf | LEAFB101 | Ethernet20 | mlag_peer | LEAFB102 | Ethernet20 |
 | l3leaf | LEAFB102 | Ethernet17 | spine | SPINE101 | Ethernet6 |
 | l3leaf | LEAFB102 | Ethernet18 | spine | SPINE102 | Ethernet6 |
-| spine | SPINE101 | Ethernet1 | l3leaf | LEAF101 | Ethernet17 |
-| spine | SPINE102 | Ethernet1 | l3leaf | LEAF101 | Ethernet18 |
 
 # Fabric IP Allocation
 
@@ -932,7 +932,7 @@ router ospf 100
 
 | Uplink IPv4 Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ---------------- | ------------------- | ------------------ | ------------------ |
-| 10.128.4.0/23 | 512 | 22 | 4.3 % |
+| 10.128.4.0/23 | 512 | 24 | 4.69 % |
 
 ## Point-To-Point Links Node Allocation
 
@@ -942,6 +942,8 @@ router ospf 100
 | BLEAF101 | Ethernet18 | 10.128.4.59/31 | SPINE102 | Ethernet3 | 10.128.4.58/31 |
 | BLEAF102 | Ethernet17 | 10.128.4.61/31 | SPINE101 | Ethernet4 | 10.128.4.60/31 |
 | BLEAF102 | Ethernet18 | 10.128.4.63/31 | SPINE102 | Ethernet4 | 10.128.4.62/31 |
+| LEAF101 | Ethernet17 | 10.128.4.1/31 | SPINE101 | Ethernet1 | 10.128.4.0/31 |
+| LEAF101 | Ethernet18 | 10.128.4.3/31 | SPINE102 | Ethernet1 | 10.128.4.2/31 |
 | LEAF102 | Ethernet17 | 10.128.4.5/31 | SPINE101 | Ethernet2 | 10.128.4.4/31 |
 | LEAF102 | Ethernet18 | 10.128.4.7/31 | SPINE102 | Ethernet2 | 10.128.4.6/31 |
 | LEAFB101 | Ethernet17 | 10.128.4.9/31 | SPINE101 | Ethernet5 | 10.128.4.8/31 |

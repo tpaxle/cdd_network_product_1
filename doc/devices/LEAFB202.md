@@ -4,6 +4,33 @@
 # Management
 
 
+## Management Interfaces
+
+### Management Interfaces Summary
+
+#### IPv4
+
+| Management Interface | description | Type | VRF | IP Address | Gateway |
+| -------------------- | ----------- | ---- | --- | ---------- | ------- |
+| Management1 | oob_management | oob | MGMT | 10.0.0.134/24 | 10.0.0.1 |
+
+#### IPv6
+
+| Management Interface | description | Type | VRF | IPv6 Address | IPv6 Gateway |
+| -------------------- | ----------- | ---- | --- | ------------ | ------------ |
+| Management1 | oob_management | oob | MGMT | -  | - |
+
+### Management Interfaces Device Configuration
+
+```eos
+!
+interface Management1
+   description oob_management
+   no shutdown
+   vrf MGMT
+   ip address 10.0.0.134/24
+```
+
 
 
 
@@ -98,6 +125,33 @@ management console
    idle-timeout 15
 ```
 
+
+## Management API HTTP
+
+### Management API HTTP Summary
+
+| HTTP | HTTPS | Default Services |
+| ---- | ----- | ---------------- |
+| False | True | - |
+
+### Management API VRF Access
+
+| VRF Name | IPv4 ACL | IPv6 ACL |
+| -------- | -------- | -------- |
+| MGMT | CVP-ACL | - |
+
+### Management API HTTP Configuration
+
+```eos
+!
+management api http-commands
+   protocol https
+   no shutdown
+   !
+   vrf MGMT
+      no shutdown
+      ip access-group CVP-ACL
+```
 
 
 # Authentication
@@ -329,15 +383,107 @@ no snmp-server enable traps bridge arista-mac-move
 snmp-server vrf MGMT
 ```
 
+# MLAG
+
+## MLAG Summary
+
+| Domain-id | Local-interface | Peer-address | Peer-link |
+| --------- | --------------- | ------------ | --------- |
+| AZ2_CL3_4 | Vlan4094 | 10.129.2.4 | Port-Channel19 |
+
+Dual primary detection is disabled.
+
+## MLAG Device Configuration
+
+```eos
+!
+mlag configuration
+   domain-id AZ2_CL3_4
+   local-interface Vlan4094
+   peer-address 10.129.2.4
+   peer-link Port-Channel19
+   reload-delay mlag 300
+   reload-delay non-mlag 330
+```
+
+# Spanning Tree
+
+## Spanning Tree Summary
+
+STP mode: **mstp**
+
+### MSTP Instance and Priority
+
+| Instance(s) | Priority |
+| -------- | -------- |
+| 0 | 4096 |
+
+### Global Spanning-Tree Settings
+
+- Spanning Tree disabled for VLANs: **4093-4094**
+
+## Spanning Tree Device Configuration
+
+```eos
+!
+spanning-tree mode mstp
+no spanning-tree vlan-id 4093-4094
+spanning-tree mst 0 priority 4096
+```
+
 # Internal VLAN Allocation Policy
 
 ## Internal VLAN Allocation Policy Summary
 
-**Default Allocation Policy**
-
 | Policy Allocation | Range Beginning | Range Ending |
 | ------------------| --------------- | ------------ |
-| ascending | 1006 | 4094 |
+| ascending | 3800 | 4000 |
+
+## Internal VLAN Allocation Policy Configuration
+
+```eos
+!
+vlan internal order ascending range 3800 4000
+```
+
+# VLANs
+
+## VLANs Summary
+
+| VLAN ID | Name | Trunk Groups |
+| ------- | ---- | ------------ |
+| 17 | NONPRO-TIER1-FRONT | - |
+| 18 | NONPRO-TIER2-BACK | - |
+| 19 | NONPRO-TIER3-LB | - |
+| 3999 | MLAG_iBGP_VRF-NONPRO | LEAF_PEER_L3 |
+| 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
+| 4094 | MLAG_PEER | MLAG |
+
+## VLANs Device Configuration
+
+```eos
+!
+vlan 17
+   name NONPRO-TIER1-FRONT
+!
+vlan 18
+   name NONPRO-TIER2-BACK
+!
+vlan 19
+   name NONPRO-TIER3-LB
+!
+vlan 3999
+   name MLAG_iBGP_VRF-NONPRO
+   trunk group LEAF_PEER_L3
+!
+vlan 4093
+   name LEAF_PEER_L3
+   trunk group LEAF_PEER_L3
+!
+vlan 4094
+   name MLAG_PEER
+   trunk group MLAG
+```
 
 # Interfaces
 
@@ -375,15 +521,265 @@ interface defaults
 
 
 
+## Ethernet Interfaces
+
+### Ethernet Interfaces Summary
+
+#### L2
+
+| Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
+| --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
+| Ethernet19 | MLAG_PEER_LEAFB201_Ethernet19 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 19 |
+| Ethernet20 | MLAG_PEER_LEAFB201_Ethernet20 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 19 |
+
+*Inherited from Port-Channel Interface
+
+#### IPv4
+
+| Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
+| --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
+| Ethernet17 | P2P_LINK_TO_SPINE201_Ethernet4 | routed | - | 10.129.4.13/31 | default | 1500 | false | - | - |
+| Ethernet18 | P2P_LINK_TO_SPINE202_Ethernet4 | routed | - | 10.129.4.15/31 | default | 1500 | false | - | - |
+
+### Ethernet Interfaces Device Configuration
+
+```eos
+!
+interface Ethernet17
+   description P2P_LINK_TO_SPINE201_Ethernet4
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.129.4.13/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet18
+   description P2P_LINK_TO_SPINE202_Ethernet4
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.129.4.15/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet19
+   description MLAG_PEER_LEAFB201_Ethernet19
+   no shutdown
+   channel-group 19 mode active
+!
+interface Ethernet20
+   description MLAG_PEER_LEAFB201_Ethernet20
+   no shutdown
+   channel-group 19 mode active
+```
 
 
+## Port-Channel Interfaces
 
+### Port-Channel Interfaces Summary
+
+#### L2
+
+| Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
+| --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
+| Port-Channel19 | MLAG_PEER_LEAFB201_Po19 | switched | trunk | 2-4094 | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
+
+### Port-Channel Interfaces Device Configuration
+
+```eos
+!
+interface Port-Channel19
+   description MLAG_PEER_LEAFB201_Po19
+   no shutdown
+   switchport
+   switchport trunk allowed vlan 2-4094
+   switchport mode trunk
+   switchport trunk group LEAF_PEER_L3
+   switchport trunk group MLAG
+```
+
+
+## Loopback Interfaces
+
+### Loopback Interfaces Summary
+
+#### IPv4
+
+| Interface | Description | VRF | IP Address |
+| --------- | ----------- | --- | ---------- |
+| Loopback0 | EVPN_Overlay_Peering | default | 10.129.0.4/32 |
+| Loopback1 | VTEP_VXLAN_Tunnel_Source | default | 10.129.1.3/32 |
+| Loopback2 | VRF-NONPRO_VTEP_DIAGNOSTICS | VRF-NONPRO | 10.215.7.4/32 |
+
+#### IPv6
+
+| Interface | Description | VRF | IPv6 Address |
+| --------- | ----------- | --- | ------------ |
+| Loopback0 | EVPN_Overlay_Peering | default | - |
+| Loopback1 | VTEP_VXLAN_Tunnel_Source | default | - |
+| Loopback2 | VRF-NONPRO_VTEP_DIAGNOSTICS | VRF-NONPRO | - |
+
+
+### Loopback Interfaces Device Configuration
+
+```eos
+!
+interface Loopback0
+   description EVPN_Overlay_Peering
+   no shutdown
+   ip address 10.129.0.4/32
+   ip ospf area 0.0.0.0
+!
+interface Loopback1
+   description VTEP_VXLAN_Tunnel_Source
+   no shutdown
+   ip address 10.129.1.3/32
+   ip ospf area 0.0.0.0
+!
+interface Loopback2
+   description VRF-NONPRO_VTEP_DIAGNOSTICS
+   no shutdown
+   vrf VRF-NONPRO
+   ip address 10.215.7.4/32
+```
+
+
+## VLAN Interfaces
+
+### VLAN Interfaces Summary
+
+| Interface | Description | VRF |  MTU | Shutdown |
+| --------- | ----------- | --- | ---- | -------- |
+| Vlan17 | NONPRO-TIER1-FRONT | VRF-NONPRO | - | false |
+| Vlan18 | NONPRO-TIER2-BACK | VRF-NONPRO | - | false |
+| Vlan19 | NONPRO-TIER3-LB | VRF-NONPRO | - | false |
+| Vlan3999 | MLAG_PEER_L3_iBGP: vrf VRF-NONPRO | VRF-NONPRO | 1500 | false |
+| Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | false |
+| Vlan4094 | MLAG_PEER | default | 1500 | false |
+
+#### IPv4
+
+| Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
+| --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
+| Vlan17 |  VRF-NONPRO  |  -  |  192.168.17.1/25  |  -  |  -  |  -  |  -  |
+| Vlan18 |  VRF-NONPRO  |  -  |  192.168.18.1/25  |  -  |  -  |  -  |  -  |
+| Vlan19 |  VRF-NONPRO  |  -  |  192.168.19.1/25  |  -  |  -  |  -  |  -  |
+| Vlan3999 |  VRF-NONPRO  |  10.129.3.5/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4093 |  default  |  10.129.3.5/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4094 |  default  |  10.129.2.5/31  |  -  |  -  |  -  |  -  |  -  |
+
+### VLAN Interfaces Device Configuration
+
+```eos
+!
+interface Vlan17
+   description NONPRO-TIER1-FRONT
+   no shutdown
+   vrf VRF-NONPRO
+   ip address virtual 192.168.17.1/25
+!
+interface Vlan18
+   description NONPRO-TIER2-BACK
+   no shutdown
+   vrf VRF-NONPRO
+   ip address virtual 192.168.18.1/25
+!
+interface Vlan19
+   description NONPRO-TIER3-LB
+   no shutdown
+   vrf VRF-NONPRO
+   ip address virtual 192.168.19.1/25
+!
+interface Vlan3999
+   description MLAG_PEER_L3_iBGP: vrf VRF-NONPRO
+   no shutdown
+   mtu 1500
+   vrf VRF-NONPRO
+   ip address 10.129.3.5/31
+!
+interface Vlan4093
+   description MLAG_PEER_L3_PEERING
+   no shutdown
+   mtu 1500
+   ip address 10.129.3.5/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Vlan4094
+   description MLAG_PEER
+   no shutdown
+   mtu 1500
+   no autostate
+   ip address 10.129.2.5/31
+```
+
+
+## VXLAN Interface
+
+### VXLAN Interface Summary
+
+| Setting | Value |
+| ------- | ----- |
+| Source Interface | Loopback1 |
+| UDP port | 4789 |
+| EVPN MLAG Shared Router MAC | mlag-system-id |
+
+#### VLAN to VNI, Flood List and Multicast Group Mappings
+
+| VLAN | VNI | Flood List | Multicast Group |
+| ---- | --- | ---------- | --------------- |
+| 17 | 10017 | - | - |
+| 18 | 10018 | - | - |
+| 19 | 10019 | - | - |
+
+#### VRF to VNI and Multicast Group Mappings
+
+| VRF | VNI | Multicast Group |
+| ---- | --- | --------------- |
+| VRF-NONPRO | 1000 | - |
+
+### VXLAN Interface Device Configuration
+
+```eos
+!
+interface Vxlan1
+   description LEAFB202_VTEP
+   vxlan source-interface Loopback1
+   vxlan virtual-router encapsulation mac-address mlag-system-id
+   vxlan udp-port 4789
+   vxlan vlan 17 vni 10017
+   vxlan vlan 18 vni 10018
+   vxlan vlan 19 vni 10019
+   vxlan vrf VRF-NONPRO vni 1000
+```
 
 
 # Routing
 
 
+## Service Routing Protocols Model
 
+Multi agent routing protocol model enabled
+
+```eos
+!
+service routing protocols model multi-agent
+```
+
+
+## Virtual Router MAC Address
+
+### Virtual Router MAC Address Summary
+
+#### Virtual Router MAC Address: 00:1c:73:00:dc:01
+
+### Virtual Router MAC Address Configuration
+
+```eos
+!
+ip virtual-router mac-address 00:1c:73:00:dc:01
+```
 
 
 ## IP Routing
@@ -392,11 +788,17 @@ interface defaults
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | false |
+| default | true |
+| MGMT | false |
+| VRF-NONPRO | true |
 
 ### IP Routing Device Configuration
 
 ```eos
+!
+ip routing
+no ip routing vrf MGMT
+ip routing vrf VRF-NONPRO
 no ip icmp redirect
 ```
 
@@ -407,12 +809,60 @@ no ip icmp redirect
 | VRF | Routing Enabled |
 | --- | --------------- |
 | default | false |
+| MGMT | false |
+| VRF-NONPRO | false |
 
+
+## Static Routes
+
+### Static Routes Summary
+
+| VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
+| --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
+| MGMT | 0.0.0.0/0 | 10.0.0.1 | - | 1 | - | - | - |
+
+### Static Routes Device Configuration
+
+```eos
+!
+ip route vrf MGMT 0.0.0.0/0 10.0.0.1
+```
 
 
 ## ARP
 
 Global ARP timeout: 270
+
+## Router OSPF
+
+### Router OSPF Summary
+
+| Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
+| ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
+| 100 | 10.129.0.4 | enabled | Ethernet17 <br> Ethernet18 <br> Vlan4093 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+
+### OSPF Interfaces
+
+| Interface | Area | Cost | Point To Point |
+| -------- | -------- | -------- | -------- |
+| Ethernet17 | 0.0.0.0 | - | True |
+| Ethernet18 | 0.0.0.0 | - | True |
+| Vlan4093 | 0.0.0.0 | - | True |
+| Loopback0 | 0.0.0.0 | - | - |
+| Loopback1 | 0.0.0.0 | - | - |
+
+### Router OSPF Device Configuration
+
+```eos
+!
+router ospf 100
+   router-id 10.129.0.4
+   passive-interface default
+   no passive-interface Ethernet17
+   no passive-interface Ethernet18
+   no passive-interface Vlan4093
+   max-lsa 12000
+```
 # AZ2
 
 # Table of Contents
@@ -442,6 +892,24 @@ Global ARP timeout: 270
 
 | Type | Node | Node Interface | Peer Type | Peer Node | Peer Interface |
 | ---- | ---- | -------------- | --------- | ----------| -------------- |
+| l3leaf | BLEAF201 | Ethernet17 | spine | SPINE201 | Ethernet5 |
+| l3leaf | BLEAF201 | Ethernet18 | spine | SPINE202 | Ethernet5 |
+| l3leaf | BLEAF201 | Ethernet19 | mlag_peer | BLEAF202 | Ethernet19 |
+| l3leaf | BLEAF201 | Ethernet20 | mlag_peer | BLEAF202 | Ethernet20 |
+| l3leaf | BLEAF202 | Ethernet17 | spine | SPINE201 | Ethernet6 |
+| l3leaf | BLEAF202 | Ethernet18 | spine | SPINE202 | Ethernet6 |
+| l3leaf | LEAFA201 | Ethernet17 | spine | SPINE201 | Ethernet1 |
+| l3leaf | LEAFA201 | Ethernet18 | spine | SPINE202 | Ethernet1 |
+| l3leaf | LEAFA201 | Ethernet19 | mlag_peer | LEAFA202 | Ethernet19 |
+| l3leaf | LEAFA201 | Ethernet20 | mlag_peer | LEAFA202 | Ethernet20 |
+| l3leaf | LEAFA202 | Ethernet17 | spine | SPINE201 | Ethernet2 |
+| l3leaf | LEAFA202 | Ethernet18 | spine | SPINE202 | Ethernet2 |
+| l3leaf | LEAFB201 | Ethernet17 | spine | SPINE201 | Ethernet3 |
+| l3leaf | LEAFB201 | Ethernet18 | spine | SPINE202 | Ethernet3 |
+| l3leaf | LEAFB201 | Ethernet19 | mlag_peer | LEAFB202 | Ethernet19 |
+| l3leaf | LEAFB201 | Ethernet20 | mlag_peer | LEAFB202 | Ethernet20 |
+| l3leaf | LEAFB202 | Ethernet17 | spine | SPINE201 | Ethernet4 |
+| l3leaf | LEAFB202 | Ethernet18 | spine | SPINE202 | Ethernet4 |
 
 # Fabric IP Allocation
 
@@ -449,37 +917,94 @@ Global ARP timeout: 270
 
 | Uplink IPv4 Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ---------------- | ------------------- | ------------------ | ------------------ |
-| 10.129.4.0/23 | 512 | 0 | 0.0 % |
+| 10.129.4.0/23 | 512 | 24 | 4.69 % |
 
 ## Point-To-Point Links Node Allocation
 
 | Node | Node Interface | Node IP Address | Peer Node | Peer Interface | Peer IP Address |
 | ---- | -------------- | --------------- | --------- | -------------- | --------------- |
+| BLEAF201 | Ethernet17 | 10.129.4.57/31 | SPINE201 | Ethernet5 | 10.129.4.56/31 |
+| BLEAF201 | Ethernet18 | 10.129.4.59/31 | SPINE202 | Ethernet5 | 10.129.4.58/31 |
+| BLEAF202 | Ethernet17 | 10.129.4.61/31 | SPINE201 | Ethernet6 | 10.129.4.60/31 |
+| BLEAF202 | Ethernet18 | 10.129.4.63/31 | SPINE202 | Ethernet6 | 10.129.4.62/31 |
+| LEAFA201 | Ethernet17 | 10.129.4.1/31 | SPINE201 | Ethernet1 | 10.129.4.0/31 |
+| LEAFA201 | Ethernet18 | 10.129.4.3/31 | SPINE202 | Ethernet1 | 10.129.4.2/31 |
+| LEAFA202 | Ethernet17 | 10.129.4.5/31 | SPINE201 | Ethernet2 | 10.129.4.4/31 |
+| LEAFA202 | Ethernet18 | 10.129.4.7/31 | SPINE202 | Ethernet2 | 10.129.4.6/31 |
+| LEAFB201 | Ethernet17 | 10.129.4.9/31 | SPINE201 | Ethernet3 | 10.129.4.8/31 |
+| LEAFB201 | Ethernet18 | 10.129.4.11/31 | SPINE202 | Ethernet3 | 10.129.4.10/31 |
+| LEAFB202 | Ethernet17 | 10.129.4.13/31 | SPINE201 | Ethernet4 | 10.129.4.12/31 |
+| LEAFB202 | Ethernet18 | 10.129.4.15/31 | SPINE202 | Ethernet4 | 10.129.4.14/31 |
 
 ## Loopback Interfaces (BGP EVPN Peering)
 
 | Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ------------- | ------------------- | ------------------ | ------------------ |
-| 10.129.0.0/24 | 256 | 0 | 0.0 % |
-| 10.129.0.248/29 | 8 | 0 | 0.0 % |
+| 10.129.0.0/24 | 256 | 8 | 3.13 % |
+| 10.129.0.248/29 | 8 | 2 | 25.0 % |
 
 ## Loopback0 Interfaces Node Allocation
 
 | POD | Node | Loopback0 |
 | --- | ---- | --------- |
+| LAB1_AZ2 | BLEAF201 | 10.129.0.15/32 |
+| LAB1_AZ2 | BLEAF202 | 10.129.0.16/32 |
+| LAB1_AZ2 | LEAFA201 | 10.129.0.1/32 |
+| LAB1_AZ2 | LEAFA202 | 10.129.0.2/32 |
+| LAB1_AZ2 | LEAFB201 | 10.129.0.3/32 |
+| LAB1_AZ2 | LEAFB202 | 10.129.0.4/32 |
+| LAB1_AZ2 | SPINE201 | 10.129.0.249/32 |
+| LAB1_AZ2 | SPINE202 | 10.129.0.250/32 |
 
 ## VTEP Loopback VXLAN Tunnel Source Interfaces (VTEPs Only)
 
 | VTEP Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | --------------------- | ------------------- | ------------------ | ------------------ |
-| 10.129.1.0/24 | 256 | 0 | 0.0 % |
+| 10.129.1.0/24 | 256 | 6 | 2.35 % |
 
 ## VTEP Loopback Node allocation
 
 | POD | Node | Loopback1 |
 | --- | ---- | --------- |
+| LAB1_AZ2 | BLEAF201 | 10.129.1.15/32 |
+| LAB1_AZ2 | BLEAF202 | 10.129.1.15/32 |
+| LAB1_AZ2 | LEAFA201 | 10.129.1.1/32 |
+| LAB1_AZ2 | LEAFA202 | 10.129.1.1/32 |
+| LAB1_AZ2 | LEAFB201 | 10.129.1.3/32 |
+| LAB1_AZ2 | LEAFB202 | 10.129.1.3/32 |
+
+# BFD
+
+## Router BFD
+
+### Router BFD Multihop Summary
+
+| Interval | Minimum RX | Multiplier |
+| -------- | ---------- | ---------- |
+| 300 | 300 | 3 |
+
+### Router BFD Device Configuration
+
+```eos
+!
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
+```
 
 # Multicast
+
+## IP IGMP Snooping
+
+### IP IGMP Snooping Summary
+
+IGMP snooping is globally disabled
+
+### IP IGMP Snooping Device Configuration
+
+```eos
+!
+no ip igmp snooping
+```
 
 # Filters
 
@@ -511,6 +1036,39 @@ ip access-list standard CVP-ACL
 !
 ip access-list standard MGMT-ACL
    10 permit 0.0.0.0/0
+```
+
+# VRF Instances
+
+## VRF Instances Summary
+
+| VRF Name | IP Routing |
+| -------- | ---------- |
+| MGMT | disabled |
+| VRF-NONPRO | enabled |
+
+## VRF Instances Device Configuration
+
+```eos
+!
+vrf instance MGMT
+!
+vrf instance VRF-NONPRO
+```
+
+# Virtual Source NAT
+
+## Virtual Source NAT Summary
+
+| Source NAT VRF | Source NAT IP Address |
+| -------------- | --------------------- |
+| VRF-NONPRO | 10.215.7.4 |
+
+## Virtual Source NAT Configuration
+
+```eos
+!
+ip address virtual source-nat vrf VRF-NONPRO address 10.215.7.4
 ```
 
 # Errdisable

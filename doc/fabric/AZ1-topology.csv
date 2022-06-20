@@ -1,4 +1,0 @@
-Node Type,Node,Node Interface,Peer Type,Peer Node,Peer Interface
-l3leaf,LEAF101,Ethernet2,server,VPC1,VPC-nic0
-l3leaf,LEAF101,Ethernet19,mlag_peer,LEAF102,Ethernet19
-l3leaf,LEAF101,Ethernet20,mlag_peer,LEAF102,Ethernet20
