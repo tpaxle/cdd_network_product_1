@@ -1,0 +1,30 @@
+---
+l3_edge:
+  p2p_links_ip_pools:
+    dci_links: 10.214.6.0/26
+  p2p_links:
+    - id: 1
+      ip_pool: dci_links
+      nodes: [BLEAF101, BLEAF201]
+      interfaces: [Ethernet1, Ethernet1]
+      as: [64505, 64555]
+      include_in_underlay_protocol: true
+    - id: 2
+      ip_pool: dci_links
+      nodes: [BLEAF101, BLEAF202]
+      interfaces: [Ethernet2, Ethernet2]
+      as: [64505, 64556]
+      include_in_underlay_protocol: true
+    - id: 3
+      ip_pool: dci_links
+      nodes: [BLEAF102, BLEAF202]
+      interfaces: [Ethernet1, Ethernet1]
+      as: [64506, 64556]
+      include_in_underlay_protocol: true
+    - id: 4
+      ip_pool: dci_links
+      nodes: [BLEAF102, BLEAF201]
+      interfaces: [Ethernet2, Ethernet2]
+      as: [64506, 64555]
+      include_in_underlay_protocol: true
+

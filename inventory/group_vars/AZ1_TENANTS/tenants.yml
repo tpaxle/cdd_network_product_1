@@ -1,0 +1,8 @@
+---
+# Tenants Networks
+# Documentation of Tenant specific information - Vlans/VRFs
+
+
+  # Tenant Util Specific Information - VRFs / VLANs
+tenants:
+   T_NONPRO: "{{ T_NONPRO }}"

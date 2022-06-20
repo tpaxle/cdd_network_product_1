@@ -1,0 +1,9 @@
+---
+
+custom_structured_configuration_router_ospf:
+  process_ids:
+    100:
+      no_passive_interfaces:
+        - Ethernet1
+        - Ethernet2
+custom_structured_configuration_list_merge: append

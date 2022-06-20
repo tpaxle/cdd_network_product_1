@@ -1,0 +1,26 @@
+---
+T_NONPRO:
+  mac_vrf_vni_base: 10000
+  enable_mlag_ibgp_peering_vrfs: true
+  vrfs:
+    VRF-NONPRO:
+      vrf_vni: 1000
+      vtep_diagnostic:
+        loopback: 2
+        loopback_ip_range: 10.215.7.0/26
+      svis:
+        17:
+          name: NONPRO-TIER1-FRONT
+          enabled: true
+          tags: [NONPRO]
+          ip_address_virtual: 192.168.17.1/25
+        18:
+          name: NONPRO-TIER2-BACK
+          enabled: true
+          tags: [NONPRO]
+          ip_address_virtual: 192.168.18.1/25
+        19:
+          name: NONPRO-TIER3-LB
+          enabled: true
+          tags: [NONPRO]
+          ip_address_virtual: 192.168.19.1/25

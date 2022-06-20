@@ -1,0 +1,12 @@
+---
+type: spine
+
+spanning_tree:
+  mode: none
+
+custom_structured_configuration_ip_extcommunity_lists:
+  NO_PREPENDING:
+    - type: permit
+      extcommunities: "rt 20:20"
+    - type: permit
+      extcommunities: "rt 21:21"

@@ -1,0 +1,183 @@
+---
+
+eos_config_deploy_eapi_pre_running_config_backup: true
+
+# Cloud Vision server information
+daemon_terminattr:
+  cvaddrs:
+    - 192.168.100.131:9910
+    - 192.168.100.132:9910
+    - 192.168.100.133:9910
+  cvauth:
+    method: "token"
+    token_file: "/tmp/token"
+  cvvrf: MGMT
+  ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"
+
+management_console:
+  idle_timeout: 15
+
+errdisable:
+  recovery:
+    interval: 30
+
+load_interval:
+  default: 5
+
+terminal:
+  length: 60
+
+ip_icmp_redirect: false
+
+ip_tacacs_source_interfaces:
+  - name: Management1
+    vrf: MGMT
+
+aaa_authentication:
+  login:
+    default: local
+    console: local
+  policies:
+    on_failure_log: true
+    on_success_log: true
+
+aaa_authorization:
+  exec:
+    default: local
+  commands:
+    privilege:
+      - level: 15
+        default: local
+
+
+interface_defaults:
+  mtu: 1500
+  ethernet:
+    shutdown: true
+
+switchport_default:
+  mode: routed
+
+banners:
+  login: |
+    *******************************************************************************
+    $(hostname).$(domain)
+
+    | mmmm                                                               #
+    | #   "m  mmm   m   m   mmm   mmmm    mmm           mmm   m mm    mmm#
+    | #    # #"  #  "m m"  #" "#  #" "#  #   "         "   #  #"  #  #" "#
+    | #    # #""""   #m#   #   #  #   #   """m         m"""#  #   #  #   #
+    | #mmm"  "#mm"    #    "#m#"  ##m#"  "mmm"         "mm"#  #   #  "#m##
+    |                             #
+    |                             "
+    | 
+    |    mmm  ""#                      #         mmmm
+    |  m"   "   #     mmm   m   m   mmm#         #   "m  mmm   m   m   mmm
+    |  #        #    #" "#  #   #  #" "#         #    # "   #  "m m"  #   "
+    |  #        #    #   #  #   #  #   #         #    # m"""#   #m#    """m
+    |   "mmm"   "mm  "#m#"  "mm"#  "#m##         #mmm"  "mm"#   "#    "mmm"
+    |                                                           m"
+    |                                                          ""
+
+    *******************************************************************************
+    *        This node is the property of Pablo
+    *        Contact: Cloud devops Days admin
+    *        E-mail: cloudevopsdays
+    *******************************************************************************
+    *        UNAUTHORIZED ACCESS PROHIBITED
+    * The use of this device is restricted to the Devops Cloud.
+    * Improper use of the resources of this device is a violation of security poli
+    * cy and shall be punished according to the rules of Devops Cloud Days.
+    *******************************************************************************
+    EOF
+
+internal_vlan_order:
+  allocation: ascending
+  range:
+    beginning: 3800
+    ending: 4000
+
+custom_structured_configuration_management_api_http:
+  enable_https: true
+  enable_vrfs:
+    MGMT:
+      access_group: CVP-ACL
+
+standard_access_lists:
+  CVP-ACL:
+    sequence_numbers:
+      10:
+        action: "permit 0.0.0.0/0"
+  MGMT-ACL:
+    sequence_numbers:
+      10:
+        action: "permit 0.0.0.0/0"
+
+# NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Management VRF
+ntp:
+  local_interface:
+    vrf: MGMT
+    name: Management1
+  servers:
+    - name: 10.0.0.1
+      preferred: true
+      vrf: MGMT
+
+logging:
+  console: notifications
+  monitor: debugging
+  buffered:
+    size: 8000
+    level: notifications
+  trap: debugging
+  format:
+    timestamp: high-resolution
+  source_interface: Management1
+  vrfs:
+    MGMT:
+      source_interface: Management1
+      hosts:
+        10.0.0.1:
+          protocol: udp
+
+# Management SSH
+management_ssh:
+  access_groups:
+    - name: MGMT-ACL
+      vrf: MGMT
+  idle_timeout: 5
+  enable: true
+  vrfs:
+    MGMT:
+      enable: true
+
+management_security:
+  password:
+    encryption_key_common: true
+
+# aaa_server_groups:
+#   - name: TacServer
+#     type: tacacs+
+#     servers:
+#       - server: 172.31.2.74
+#         vrf: MGMT
+#       - server: 172.31.2.75
+#         vrf: MGMT
+
+custom_structured_configuration_sflow:
+  sample: 131072
+  destinations:
+    - 127.0.0.1
+  source_interface: Loopback0
+  run: true
+
+service_unsupported_transceiver:
+  license_name: 20182401_Produban_CCC
+  license_key: 9c7e1f34
+
+arp:
+  aging:
+    timeout_default: 270
+
+event_monitor:
+  enabled: true

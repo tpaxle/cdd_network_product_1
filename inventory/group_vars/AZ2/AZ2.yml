@@ -1,0 +1,249 @@
+---
+# L3LS Fabric Values - update these values with caution,
+# SOME CHANGES COULD BE DISRUPTIVE.
+
+fabric_name: AZ2
+dc_name: LAB1_AZ2
+# OOB Management network default gateway.
+mgmt_gateway: 10.0.0.1
+
+# Enable vlan aware bundles
+vxlan_vlan_aware_bundles: false
+
+# Disable igmp snooping default
+default_igmp_snooping_enabled: false
+
+# Enable VPN import pruning (Min. EOS 4.24.2F)
+# The Route Target extended communities carried by incoming VPN paths will
+# be examined. If none of those Route Targets have been configured for import,
+# the path will be immediately discarded
+evpn_import_pruning: true
+underlay_routing_protocol: ospf
+bgp_maximum_paths: 128
+bgp_ecmp: 128
+
+# Spine Switches
+spine:
+  defaults:
+    bgp_as: 64550
+    loopback_ipv4_pool: 10.129.0.248/29
+    structured_config:
+      route_maps:
+        RM_AS_PATH_PREP:
+          sequence_numbers:
+            10:
+              type: permit
+              match:
+                - "extcommunity NO_PREPENDING"
+            20:
+              type: permit
+              match:
+                - "origin-as 64555"
+              set:
+                - "as-path prepend auto"
+            30:
+              type: permit
+              match:
+                - "origin-as 64556"
+              set:
+                - "as-path prepend auto"
+            40:
+              type: permit
+              match:
+                - "origin-as 64557"
+              set:
+                - "as-path prepend auto"
+            50:
+              type: permit
+      router_bgp:
+        peer_groups:
+          EVPN-OVERLAY-SPINES:
+            type: evpn
+            remote_as: 64500
+            description: "EVPN to DC2 RR"
+            next_hop_unchanged: true
+            update_source: loopback0
+            ebgp_multihop: 3
+            bfd: true
+            send_community: all
+          EVPN-OVERLAY-PEERS:
+            route_map_out: RM_AS_PATH_PREP
+        neighbors:
+          10.128.0.249:
+            peer_group: EVPN-OVERLAY-SPINES
+          10.128.0.250:
+            peer_group: EVPN-OVERLAY-SPINES
+          10.128.0.251:
+            peer_group: EVPN-OVERLAY-SPINES
+        address_family_evpn:
+          peer_groups:
+            EVPN-OVERLAY-SPINES:
+              activate: true
+    bgp_defaults:
+      - update wait-for-convergence
+      - update wait-install
+      - no bgp default ipv4-unicast
+      - distance bgp 20 200 200
+      - timers bgp 5 15
+      - neighbor default send-community
+  nodes:
+    SPINE201:
+      id: 1
+      mgmt_ip: 10.0.0.111/24
+    SPINE202:
+      id: 2
+      mgmt_ip: 10.0.0.112/24
+
+
+# Leaf switch groups
+# A maximum of two nodes can form a leaf group
+# When two nodes are in a leaf group this will automatically form mlag pair
+
+l3leaf:
+  defaults:
+    # virtual router mac for VNIs assigned to Leaf switches
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    uplink_ipv4_pool: 10.129.4.0/23
+    loopback_ipv4_pool: 10.129.0.0/24
+    vtep_loopback_ipv4_pool: 10.129.1.0/24
+    uplink_interfaces: [Ethernet17, Ethernet18]
+    uplink_switches: [SPINE201, SPINE202]
+    mlag: true
+    mlag_interfaces: [Ethernet19, Ethernet20]
+    mlag_peer_ipv4_pool: 10.129.2.0/24
+    mlag_peer_l3_ipv4_pool: 10.129.3.0/24
+    mlag_ibgp_origin_incomplete: false
+    spanning_tree_priority: 4096
+    spanning_tree_mode: mstp
+    bgp_defaults:
+      - update wait-install
+      - no bgp default ipv4-unicast
+      - distance bgp 20 200 200
+      - timers bgp 5 15
+      - neighbor default send-community
+  node_groups:
+    AZ2_CL1_2:
+      filter:
+        tags:
+          - NONPRO
+          - NONPRO-AZ2
+          - PRO
+          - PRO-AZ2
+          - DMZ
+          - DMZ-AZ2
+          - MGMT
+          - MGMT-AZ2
+          - WITNESS
+          - WITNESS-AZ2
+          - MGMT-FW
+          - MGMT-FW-EXT
+          - CPSN
+          - BL-101-201-L2
+          - BL-121-221-L2
+          - BL-122-222-L2
+          - BL-101-201-WHITE
+          - BL-121-221-WHITE
+          - BL-122-222-WHITE
+      nodes:
+        LEAFA201:
+          bgp_as: 64551
+          id: 1
+          mgmt_ip: 10.0.0.131/24
+          uplink_switch_interfaces: [Ethernet1, Ethernet1]
+
+        LEAFA202:
+          bgp_as: 64551
+          id: 2
+          mgmt_ip: 10.0.0.132/24
+          uplink_switch_interfaces: [Ethernet2, Ethernet2]
+    AZ2_CL3_4:
+      filter:
+        tags:
+          - NONPRO
+          - NONPRO-AZ1
+          - PRO
+          - PRO-AZ1
+          - DMZ
+          - DMZ-AZ1
+          - MGMT
+          - MGMT-AZ1
+          - WITNESS
+          - WITNESS-AZ1
+          - MGMT-FW
+          - MGMT-FW-EXT
+          - CPSN
+          - BL-101-201-L2
+          - BL-121-221-L2
+          - BL-122-222-L2
+          - BL-101-201-WHITE
+          - BL-121-221-WHITE
+          - BL-122-222-WHITE
+      nodes:
+        LEAFB201:
+          bgp_as: 64552
+          id: 3
+          mgmt_ip: 10.0.0.133/24
+          uplink_switch_interfaces: [Ethernet3, Ethernet3]
+
+        LEAFB202:
+          bgp_as: 64552
+          id: 4
+          mgmt_ip: 10.0.0.134/24
+          uplink_switch_interfaces: [Ethernet4, Ethernet4]
+
+
+
+
+    AZ2_BL25G:
+      platform: VEOS-LAB
+      spanning_tree_mode: none
+      link_tracking:
+        enabled: true
+        groups:
+          - name: LT_GROUP1
+            recovery_delay: 300
+      lacp_port_id_range:
+        enabled: true
+      filter:
+        tags:
+          - NONPRO
+          - PRO
+          - DMZ
+          - MGMT
+          - WITNESS
+          - IX
+          - CPSN
+          - BAAS
+          - MGMT-FW-EXT
+          - BL-101-201
+          - BL-101-201-L2
+          - BL-101-201-WHITE
+      nodes:
+        BLEAF201:
+          bgp_as: 64555
+          id: 15
+          mgmt_ip: 10.0.0.121/24
+          uplink_switch_interfaces: [Ethernet5, Ethernet5]
+        BLEAF202:
+          bgp_as: 64556
+          id: 16
+          mgmt_ip: 10.0.0.122/24
+          uplink_switch_interfaces: [Ethernet6, Ethernet6]
+                    
+
+p2p_uplinks_mtu: 1500
+#p2p_uplinks_qos_profile: santander_trust_dscp
+
+# Adjust default bfd values
+bfd_multihop:
+  interval: 300
+  min_rx: 300
+  multiplier: 3
+
+# List of additional CVP configlets to bind to devices and containers
+# Configlets MUST be configured on CVP before running AVD playbooks.
+
+# cv_configlets:
+#   containers:
+#     DC1_L3LEAFS:
+#       - ASE_GLOBAL-ALIASES

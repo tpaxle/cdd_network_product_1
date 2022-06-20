@@ -1,0 +1,16 @@
+---
+servers:
+  VPC201:
+    rack: RackA
+    adapters:
+      - type: nic
+        rack: Virtual-1
+        server_ports: [VPC201-nic0]
+        switch_ports: [Ethernet1]
+        switches: [LEAFA201]
+        enabled: true
+        mode: access
+        vlans: 17
+        spanning_tree_portfast: edge
+
+

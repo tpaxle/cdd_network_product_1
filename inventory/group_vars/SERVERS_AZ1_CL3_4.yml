@@ -1,0 +1,29 @@
+---
+servers:
+  VPC1:
+    rack: RackA
+    adapters:
+      - type: nic
+        rack: Virtual-1
+        server_ports: [VPC-nic0]
+        switch_ports: [Ethernet1]
+        switches: [LEAFB101]
+        enabled: true
+        mode: access
+        vlans: 17
+        spanning_tree_portfast: edge
+
+
+  VPC2:
+    rack: RackB
+    adapters:
+      - type: nic
+        rack: Virtual-1
+        server_ports: [VPC-nic0]
+        switch_ports: [Ethernet1]
+        switches: [LEAFB102]
+        enabled: true
+        mode: access
+        vlans: 18
+        spanning_tree_portfast: edge
+

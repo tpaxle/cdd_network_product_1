@@ -1,0 +1,122 @@
+---
+all:
+  children:
+    CVP:
+      hosts:
+        dhcp_server:
+          ansible_connection: local
+        cv_server:
+          ansible_httpapi_host: 172.28.192.110
+          ansible_host: 172.28.192.110
+          ansible_connection: httpapi
+          ansible_httpapi_use_ssl: false
+          ansible_httpapi_validate_certs: false
+          ansible_network_os: eos
+          ansible_httpapi_port: 443
+          fabric_name: LAB01
+          # Configuration to get Virtual Env information
+          ansible_python_interpreter: $(which python3)
+
+    GLOBAL:
+      children:
+        LAB01:
+          children:
+            AZ1:
+              children:
+                AZ1_SPINES:
+                  hosts:
+                    SPINE101:
+                      ansible_host: 10.0.0.11
+                    SPINE102:
+                      ansible_host: 10.0.0.12
+                AZ1_LEAVES:
+                  children:
+                    AZ1_CL1_2:
+                      hosts:
+                        LEAF101:
+                          ansible_host: 10.0.0.31
+                        LEAF102:
+                          ansible_host: 10.0.0.32
+                    AZ1_CL3_4:
+                      hosts:
+                        LEAFB101:
+                          ansible_host: 10.0.0.33
+                        LEAFB102:
+                          ansible_host: 10.0.0.34                          
+                    AZ1_BL25G:
+                      hosts:
+                        BLEAF101:
+                          ansible_host: 10.0.0.21
+                        BLEAF102:
+                          ansible_host: 10.0.0.22 
+            AZ2:
+              children:
+                AZ2_SPINES:
+                  hosts:
+                    SPINE201:
+                      ansible_host: 10.0.0.111
+                    SPINE202:
+                      ansible_host: 10.0.0.112
+                AZ2_LEAVES:
+                  children:
+                    AZ2_CL1_2:
+                      hosts:
+                        LEAFA201:
+                          ansible_host: 10.0.0.131
+                        LEAFA202:
+                          ansible_host: 10.0.0.132
+                    AZ2_CL3_4:
+                      hosts:
+                        LEAFB201:
+                          ansible_host: 10.0.0.133
+                        LEAFB202:
+                          ansible_host: 10.0.0.134                          
+                    AZ2_BL25G:
+                      hosts:
+                        BLEAF201:
+                          ansible_host: 10.0.0.121
+                        BLEAF202:
+                          ansible_host: 10.0.0.122
+          vars:
+            ansible_connection: httpapi
+            ansible_network_os: eos
+            ansible_become: true
+            ansible_become_method: enable
+            ansible_httpapi_use_ssl: true
+            ansible_httpapi_port: 443
+            ansible_httpapi_validate_certs: false
+        DCI:
+          children:
+            AZ1_BL25G:
+            AZ2_BL25G:
+
+        AZ1_TENANTS:
+          children:
+            AZ1_LEAVES:
+
+        AZ2_TENANTS:
+          children:
+            AZ2_LEAVES:
+
+        SERVERS:
+          children:
+            SERVERS_AZ1:
+              children:
+                SERVERS_AZ1_CL1_2:
+                  children:
+                    AZ1_CL1_2:
+                SERVERS_AZ1_CL3_4:
+                  children:
+                    AZ1_CL3_4:
+            SERVERS_AZ2:
+              children:
+                SERVERS_AZ2_CL1_2:
+                  children:
+                    AZ2_CL1_2:
+                SERVERS_AZ1_CL3_4:
+                  children:
+                    AZ2_CL3_4:
+            SERVERS_BL25G:
+              children:
+                AZ1_BL25G:
+                AZ2_BL25G:
