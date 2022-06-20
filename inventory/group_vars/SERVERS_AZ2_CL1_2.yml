@@ -12,5 +12,3 @@ servers:
         mode: access
         vlans: 17
         spanning_tree_portfast: edge
-
-

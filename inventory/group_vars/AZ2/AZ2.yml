@@ -190,10 +190,6 @@ l3leaf:
           id: 4
           mgmt_ip: 10.0.0.134/24
           uplink_switch_interfaces: [Ethernet4, Ethernet4]
-
-
-
-
     AZ2_BL25G:
       platform: VEOS-LAB
       spanning_tree_mode: none
@@ -229,10 +225,9 @@ l3leaf:
           id: 16
           mgmt_ip: 10.0.0.122/24
           uplink_switch_interfaces: [Ethernet6, Ethernet6]
-                    
 
 p2p_uplinks_mtu: 1500
-#p2p_uplinks_qos_profile: santander_trust_dscp
+# p2p_uplinks_qos_profile: santander_trust_dscp
 
 # Adjust default bfd values
 bfd_multihop:

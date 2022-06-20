@@ -27,4 +27,3 @@ l3_edge:
       interfaces: [Ethernet2, Ethernet2]
       as: [64506, 64555]
       include_in_underlay_protocol: true
-

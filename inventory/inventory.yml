@@ -42,13 +42,13 @@ all:
                         LEAFB101:
                           ansible_host: 10.0.0.33
                         LEAFB102:
-                          ansible_host: 10.0.0.34                          
+                          ansible_host: 10.0.0.34
                     AZ1_BL25G:
                       hosts:
                         BLEAF101:
                           ansible_host: 10.0.0.21
                         BLEAF102:
-                          ansible_host: 10.0.0.22 
+                          ansible_host: 10.0.0.22
             AZ2:
               children:
                 AZ2_SPINES:
@@ -70,7 +70,7 @@ all:
                         LEAFB201:
                           ansible_host: 10.0.0.133
                         LEAFB202:
-                          ansible_host: 10.0.0.134                          
+                          ansible_host: 10.0.0.134
                     AZ2_BL25G:
                       hosts:
                         BLEAF201:

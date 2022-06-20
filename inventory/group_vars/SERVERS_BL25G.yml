@@ -7,4 +7,3 @@ custom_structured_configuration_router_ospf:
         - Ethernet1
         - Ethernet2
 custom_structured_configuration_list_merge: append
-

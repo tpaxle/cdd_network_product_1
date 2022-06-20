@@ -23,7 +23,7 @@ T_NONPRO:
           name: NONPRO-TIER3-LB
           enabled: true
           tags: [NONPRO]
-          ip_address_virtual: 192.168.19.1/25 
+          ip_address_virtual: 192.168.19.1/25
   l2vlans:
     504:
       name: SBNA-EDGE-BL-NONPRO
