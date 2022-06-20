@@ -1,4 +1,6 @@
 vault-pass
+inventory/config_backup
+inventory/intended/
 playbooks/kubeconfig
 roles/san_linux_install_cert
 roles/docker_ohe
