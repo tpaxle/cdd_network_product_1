@@ -167,40 +167,7 @@ l3leaf:
           id: 2
           mgmt_ip: 10.0.0.132/24
           uplink_switch_interfaces: [Ethernet2, Ethernet2]
-    AZ2_CL3_4:
-      filter:
-        tags:
-          - NONPRO
-          - NONPRO-AZ1
-          - PRO
-          - PRO-AZ1
-          - DMZ
-          - DMZ-AZ1
-          - MGMT
-          - MGMT-AZ1
-          - WITNESS
-          - WITNESS-AZ1
-          - MGMT-FW
-          - MGMT-FW-EXT
-          - CPSN
-          - BL-101-201-L2
-          - BL-121-221-L2
-          - BL-122-222-L2
-          - BL-101-201-WHITE
-          - BL-121-221-WHITE
-          - BL-122-222-WHITE
-      nodes:
-        LEAFB201:
-          bgp_as: 64552
-          id: 3
-          mgmt_ip: 10.0.0.133/24
-          uplink_switch_interfaces: [Ethernet3, Ethernet3]
-
-        LEAFB202:
-          bgp_as: 64552
-          id: 4
-          mgmt_ip: 10.0.0.134/24
-          uplink_switch_interfaces: [Ethernet4, Ethernet4]
+ 
     AZ2_BL25G:
       platform: VEOS-LAB
       spanning_tree_mode: none
