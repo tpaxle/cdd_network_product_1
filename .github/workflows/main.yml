@@ -38,13 +38,14 @@ jobs:
 
     - name: Copy current confg
       run:  |
-        cp -rp inventory/intented/configs/* doc/devices/configs/
+        cp -rp inventory/intended/configs/* doc/devices/configs/
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
       with:
         message: "[Actions] Doc autogenerate"
-
+inventory/intented/configs/
+inventory/intended/configs
   releasing:
     needs: buildrelease
     environment: services
