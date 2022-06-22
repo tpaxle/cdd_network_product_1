@@ -452,6 +452,7 @@ vlan internal order ascending range 3800 4000
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 15 | NONPRO-TIER1-LB | - |
 | 17 | NONPRO-TIER1-FRONT | - |
 | 18 | NONPRO-TIER2-BACK | - |
 | 19 | NONPRO-TIER3-LB | - |
@@ -463,6 +464,9 @@ vlan internal order ascending range 3800 4000
 ## VLANs Device Configuration
 
 ```eos
+!
+vlan 15
+   name NONPRO-TIER1-LB
 !
 vlan 17
    name NONPRO-TIER1-FRONT
@@ -664,6 +668,7 @@ interface Loopback2
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
+| Vlan15 | NONPRO-TIER1-LB | VRF-NONPRO | - | false |
 | Vlan17 | NONPRO-TIER1-FRONT | VRF-NONPRO | - | false |
 | Vlan18 | NONPRO-TIER2-BACK | VRF-NONPRO | - | false |
 | Vlan19 | NONPRO-TIER3-LB | VRF-NONPRO | - | false |
@@ -675,6 +680,7 @@ interface Loopback2
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
+| Vlan15 |  VRF-NONPRO  |  -  |  192.168.15.1/25  |  -  |  -  |  -  |  -  |
 | Vlan17 |  VRF-NONPRO  |  -  |  192.168.17.1/25  |  -  |  -  |  -  |  -  |
 | Vlan18 |  VRF-NONPRO  |  -  |  192.168.18.1/25  |  -  |  -  |  -  |  -  |
 | Vlan19 |  VRF-NONPRO  |  -  |  192.168.19.1/25  |  -  |  -  |  -  |  -  |
@@ -685,6 +691,12 @@ interface Loopback2
 ### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan15
+   description NONPRO-TIER1-LB
+   no shutdown
+   vrf VRF-NONPRO
+   ip address virtual 192.168.15.1/25
 !
 interface Vlan17
    description NONPRO-TIER1-FRONT
@@ -742,6 +754,7 @@ interface Vlan4094
 
 | VLAN | VNI | Flood List | Multicast Group |
 | ---- | --- | ---------- | --------------- |
+| 15 | 10015 | - | - |
 | 17 | 10017 | - | - |
 | 18 | 10018 | - | - |
 | 19 | 10019 | - | - |
@@ -762,6 +775,7 @@ interface Vxlan1
    vxlan source-interface Loopback1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
+   vxlan vlan 15 vni 10015
    vxlan vlan 17 vni 10017
    vxlan vlan 18 vni 10018
    vxlan vlan 19 vni 10019

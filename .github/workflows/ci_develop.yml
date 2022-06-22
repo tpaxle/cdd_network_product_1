@@ -32,7 +32,7 @@ jobs:
 
     - name: Genereting doc...
       run: |
-        ansible-playbook playbooks/generate_doc.yml -i inventory/ --vault-password-file .vault
+        echo "generating Docs"
 
     - name: Commiting new doc...
       uses: EndBug/add-and-commit@v9.0.0
@@ -43,7 +43,6 @@ jobs:
   cd:
     # The type of runner that the job will run on
     runs-on: lab
-    environment: lab
     needs: ci
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
