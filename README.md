@@ -68,8 +68,6 @@ invalid permissions. Please, open a ticket on the following service now path.
 - [SPINE202](doc/devices/SPINE202.md)
 - [LEAFA201](doc/devices/LEAFA201.md)
 - [LEAFA202](doc/devices/LEAFA202.md)
-- [LEAFB201](doc/devices/LEAFB201.md)
-- [LEAFB202](doc/devices/LEAFB202.md)
 - [BLEAF201](doc/devices/BLEAF201.md)
 - [BLEAF202](doc/devices/BLEAF202.md)
 
