@@ -12,3 +12,28 @@ servers:
         mode: access
         vlans: 17
         spanning_tree_portfast: edge
+
+  f5:
+    rack: RackB
+    adapters:
+      - type: nic
+        rack: Virtual-2
+        server_ports: [uplink]
+        switch_ports: [Ethernet10]
+        switches: [LEAFA202]
+        enabled: true
+        mode: access
+        vlans: 15
+        spanning_tree_portfast: edge
+
+    rack: RackB
+    adapters:
+      - type: nic
+        rack: Virtual-2
+        server_ports: [downlinks]
+        switch_ports: [Ethernet11]
+        switches: [LEAFA202]
+        enabled: true
+        mode: access
+        vlans: 17
+        spanning_tree_portfast: edge
