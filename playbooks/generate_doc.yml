@@ -1,0 +1,5 @@
+---
+- name: Create Doc PAGES
+  hosts: GLOBAL
+  roles:
+    - role: san_doc_avd

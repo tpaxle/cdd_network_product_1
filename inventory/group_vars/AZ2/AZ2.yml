@@ -66,6 +66,16 @@ spine:
             ebgp_multihop: 3
             bfd: true
             send_community: all
+          EVPN-OVERLAY-PEERS-CISCO:
+            type: evpn
+            remote_as: 64570
+            description: "EVPN to pod1 Cisco"
+            route_reflector_client: true
+            next_hop_unchanged: false
+            update_source: loopback0
+            ebgp_multihop: 3
+            bfd: true
+            send_community: all
           EVPN-OVERLAY-PEERS:
             route_map_out: RM_AS_PATH_PREP
         neighbors:
@@ -73,11 +83,15 @@ spine:
             peer_group: EVPN-OVERLAY-SPINES
           10.128.0.250:
             peer_group: EVPN-OVERLAY-SPINES
-          10.128.0.251:
-            peer_group: EVPN-OVERLAY-SPINES
+          10.129.0.90:
+            peer_group: EVPN-OVERLAY-PEERS-CISCO
+          10.129.0.91:
+            peer_group: EVPN-OVERLAY-PEERS-CISCO
         address_family_evpn:
           peer_groups:
             EVPN-OVERLAY-SPINES:
+              activate: true
+            EVPN-OVERLAY-PEERS-CISCO:
               activate: true
     bgp_defaults:
       - update wait-for-convergence
@@ -156,40 +170,6 @@ l3leaf:
           id: 2
           mgmt_ip: 10.0.0.132/24
           uplink_switch_interfaces: [Ethernet2, Ethernet2]
-    AZ2_CL3_4:
-      filter:
-        tags:
-          - NONPRO
-          - NONPRO-AZ1
-          - PRO
-          - PRO-AZ1
-          - DMZ
-          - DMZ-AZ1
-          - MGMT
-          - MGMT-AZ1
-          - WITNESS
-          - WITNESS-AZ1
-          - MGMT-FW
-          - MGMT-FW-EXT
-          - CPSN
-          - BL-101-201-L2
-          - BL-121-221-L2
-          - BL-122-222-L2
-          - BL-101-201-WHITE
-          - BL-121-221-WHITE
-          - BL-122-222-WHITE
-      nodes:
-        LEAFB201:
-          bgp_as: 64552
-          id: 3
-          mgmt_ip: 10.0.0.133/24
-          uplink_switch_interfaces: [Ethernet3, Ethernet3]
-
-        LEAFB202:
-          bgp_as: 64552
-          id: 4
-          mgmt_ip: 10.0.0.134/24
-          uplink_switch_interfaces: [Ethernet4, Ethernet4]
     AZ2_BL25G:
       platform: VEOS-LAB
       spanning_tree_mode: none

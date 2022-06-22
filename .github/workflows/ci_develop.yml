@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI Test pipeliens
+name: CI Develop
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -12,7 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  ci:
     # The type of runner that the job will run on
     runs-on: lab
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -20,34 +20,42 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Check precommits
+    - name: Checking Code...
       run: |
-        python -V
-        pre-commit run --hook-stage commit --files ./*
 
-    - name: Build Configuration
+        pre-commit run --hook-stage commit --files ./roles/* ./playbooks/* ./inventory/* 
+
+    - name: Checking Ansible configuration...
       run: |
         echo ${{ secrets.VAULT_PASSWORD }} >> .vault      
-        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ --ask-vault-password -t build --vault-password-file .vault
+        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
+
+    - name: Genereting doc...
+      run: |
+        ansible-playbook playbooks/generate_doc.yml -i inventory/ --vault-password-file .vault
+
+    - name: Commiting new doc...
+      uses: EndBug/add-and-commit@v9.0.0
+      with:
+        message: "[Actions] Doc autogenerate"
 
 
-#    - name: ansible-playbook build
-#      run:  |
-#         ansible-playbook playbooks/fabric-deploy-AZ1.yml --tags build
-#         ansible-playbook playbooks/fabric-deploy-AZ2.yml --tags build
+  cd:
+    # The type of runner that the job will run on
+    runs-on: lab
+    environment: lab
+    needs: ci
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
 
-#         unset http_proxy
-#         unset HTTP_PROXY
-#         unset HTTPS_PROXY
-#         unset https_proxy
-#         env | grep http
-#         ansible-playbook  playbooks/SAN_Create_DOC.yml
+    - name: Generating Code...
+      run: |
+        echo 
 
-#    - name: Github Status
-#      run:  |
-#         git status
+    - name: Deploying Code on LAB101...
+      run: |
+        echo "Deploying.."
 
-#    - name: Add & Commit
-#      uses: EndBug/add-and-commit@v7.0.0
-#      with:
-#        message: "TMP-New doc"
+

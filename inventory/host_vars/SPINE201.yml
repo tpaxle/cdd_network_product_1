@@ -1,0 +1,24 @@
+---
+custom_structured_configuration_ethernet_interfaces:
+  Ethernet7:
+    description: Connection LEAFC201-E31
+    ip_address: 10.129.4.92/31
+    shutdown: false
+    type: routed
+    mtu: 1500
+    ospf_area: 0
+    ospf_network_point_to_point: true
+    raw_eos_cli: |
+      ip ospf dead-interval 3
+      ip ospf hello-interval 1
+  Ethernet8:
+    description: Connection LEAFC202-E31
+    ip_address: 10.129.4.94/31
+    shutdown: false
+    type: routed
+    mtu: 1500
+    ospf_area: 0
+    ospf_network_point_to_point: true
+    eos_cli: |
+      ip ospf dead-interval 3
+      ip ospf hello-interval 1

@@ -1,6 +1,9 @@
 ---
 
 eos_config_deploy_eapi_pre_running_config_backup: true
+generate_device_documentation: false
+fabric_dir: "{{playbook_dir}}/../doc/fabric/"
+devices_dir: "{{playbook_dir}}/../doc/devices/"
 
 # Cloud Vision server information
 daemon_terminattr:

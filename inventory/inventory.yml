@@ -65,12 +65,6 @@ all:
                           ansible_host: 10.0.0.131
                         LEAFA202:
                           ansible_host: 10.0.0.132
-                    AZ2_CL3_4:
-                      hosts:
-                        LEAFB201:
-                          ansible_host: 10.0.0.133
-                        LEAFB202:
-                          ansible_host: 10.0.0.134
                     AZ2_BL25G:
                       hosts:
                         BLEAF201:
@@ -113,9 +107,7 @@ all:
                 SERVERS_AZ2_CL1_2:
                   children:
                     AZ2_CL1_2:
-                SERVERS_AZ1_CL3_4:
-                  children:
-                    AZ2_CL3_4:
+
             SERVERS_BL25G:
               children:
                 AZ1_BL25G:
