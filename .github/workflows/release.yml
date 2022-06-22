@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Release Version CD
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    tags: v[0-9]+.[0-9]+.[0-9]+
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  cd_pre:
+    environment: lab
+    runs-on: lab
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Checking Ansible configuration...
+      run: |
+        echo ${{ secrets.VAULT_PASSWORD }} >> .vault      
+        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
+
+    - name: Deploy configuration...
+      run: |
+        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t deploy --vault-password-file .vault
+
+    - name: Testing configuration...
+      run: |
+        echo "Testing"
+
+
+  cd_pro:
+    environment: pro
+    runs-on: lab # linux-platform, ubuntu-latest
+    needs: cd_pr3
+    steps:
+      - name: "Deploying"
+        run: echo "Deploying"

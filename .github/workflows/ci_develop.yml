@@ -52,8 +52,7 @@ jobs:
 
     - name: Generating Code...
       run: |
-        echo ${{ secrets.VAULT_PASSWORD }} > .vault            
-        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
+        echo 
 
     - name: Deploying Code on LAB101...
       run: |
