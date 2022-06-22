@@ -57,6 +57,6 @@ jobs:
 
     - name: Deploying Code on LAB101...
       run: |
-        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t deploy --vault-password-file .vault
+        echo "Deploying.."
 
 
