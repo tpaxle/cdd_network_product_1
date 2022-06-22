@@ -18,7 +18,7 @@ T_NONPRO:
           name: NONPRO-TIER2-LB
           enabled: true
           tags: [NONPRO]
-          ip_address_virtual: 192.168.16.1/25          
+          ip_address_virtual: 192.168.16.1/25
         17:
           name: NONPRO-TIER3-FRONT
           enabled: true
