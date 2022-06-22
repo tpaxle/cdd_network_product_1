@@ -70,12 +70,12 @@ spine:
             type: evpn
             remote_as: 64570
             description: "EVPN to pod1 Cisco"
-            route_reflector_client: true  
+            route_reflector_client: true
             next_hop_unchanged: false
             update_source: loopback0
             ebgp_multihop: 3
             bfd: true
-            send_community: all            
+            send_community: all
           EVPN-OVERLAY-PEERS:
             route_map_out: RM_AS_PATH_PREP
         neighbors:
@@ -170,7 +170,6 @@ l3leaf:
           id: 2
           mgmt_ip: 10.0.0.132/24
           uplink_switch_interfaces: [Ethernet2, Ethernet2]
- 
     AZ2_BL25G:
       platform: VEOS-LAB
       spanning_tree_mode: none

@@ -11,8 +11,6 @@ custom_structured_configuration_ethernet_interfaces:
     raw_eos_cli: |
       ip ospf dead-interval 3
       ip ospf hello-interval 1
-
-
   Ethernet8:
     description: Connection LEAFC202-E32
     ip_address: 10.129.4.98/31
@@ -24,4 +22,3 @@ custom_structured_configuration_ethernet_interfaces:
     eos_cli: |
       ip ospf dead-interval 3
       ip ospf hello-interval 1
-
