@@ -45,6 +45,11 @@
   delegate_to: localhost
   when: structured_config is not defined and stat_result.stat.exists
 
+- name: Include compare config
+  tags: [build, provision]
+  include_vars: "{{ structured_dir }}/compare.yml"
+  delegate_to: localhost
+  when: structured_config is not defined and stat_result.stat.exists
 
 - name: new README
   run_once: true
