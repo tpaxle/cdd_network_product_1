@@ -101,7 +101,6 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-
     - name: Create zip file
       run: zip -r ${{ env.PROJECT }}_configs.zip doc/devices/configs
 
