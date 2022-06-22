@@ -34,7 +34,10 @@ jobs:
 
     - name: ansible-playbook build
       run:  |
-         ansible-playbook -i inventory/ --vault-password-file .vault playbooks/fabric-deploy-All.yml -t build
+        ansible-playbook -i inventory/ --vault-password-file .vault playbooks/fabric-deploy-All.yml -t build
+        ansible-playbook playbooks/compare-configs.yml -i inventory/ --vault-password-file .vault
+        python3 scripts/list.py
+        ansible-playbook playbooks/generate_doc.yml -i inventory/ --vault-password-file .vault
 
     - name: Copy current confg
       run:  |
@@ -44,7 +47,7 @@ jobs:
       uses: EndBug/add-and-commit@v9.0.0
       with:
         message: "[Actions] Doc autogenerate"
-        remove: "doc/fabric/*"
+
   releasing:
     needs: buildrelease
     # The type of runner that the job will run on

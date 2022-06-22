@@ -14,21 +14,27 @@ T_NONPRO:
           enabled: true
           tags: [NONPRO]
           ip_address_virtual: 192.168.15.1/25
+        16:
+          name: NONPRO-TIER2-LB
+          enabled: true
+          tags: [NONPRO]
+          ip_address_virtual: 192.168.16.1/25
         17:
-          name: NONPRO-TIER1-FRONT
+          name: NONPRO-TIER3-FRONT
           enabled: true
           tags: [NONPRO]
           ip_address_virtual: 192.168.17.1/25
         18:
-          name: NONPRO-TIER2-BACK
+          name: NONPRO-TIER4-BACK
           enabled: true
           tags: [NONPRO]
           ip_address_virtual: 192.168.18.1/25
         19:
-          name: NONPRO-TIER3-LB
+          name: NONPRO-TIER5-LB
           enabled: true
           tags: [NONPRO]
           ip_address_virtual: 192.168.19.1/25
+
   l2vlans:
     504:
       name: SBNA-EDGE-BL-NONPRO
