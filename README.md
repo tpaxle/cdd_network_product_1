@@ -71,6 +71,10 @@ invalid permissions. Please, open a ticket on the following service now path.
 - [BLEAF201](doc/devices/BLEAF201.md)
 - [BLEAF202](doc/devices/BLEAF202.md)
 
+## LAST CHANGES:
+
+
+
 ## FAQ
 
 Below is described the work structure used on the git repo:
@@ -82,11 +86,10 @@ Below is described the work structure used on the git repo:
   the inventory is (if you use a coherent syntax)
   • ansible.cfg at the root of this repository
 
-``
+<pre><code>
     |------ inventory
     |       ├    group_vars
     |       ├    host_vars
     |       └-   inventoy.yml
     g└------ playbooks
-``
-.
+</code></pre>
