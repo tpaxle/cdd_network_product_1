@@ -47,7 +47,6 @@ jobs:
 
   releasing:
     needs: buildrelease
-    environment: services
     # The type of runner that the job will run on
     runs-on: lab
 
