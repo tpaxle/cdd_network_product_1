@@ -28,7 +28,7 @@ jobs:
 
 
     - name: Create zip file
-      run: zip -r ${{ env.PROJECT }}_configs.zip inventory/intended/configs
+      run: tar -cvzf ${{ env.PROJECT }}_configs.tar.gz inventory/intended/configs/
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1.0.2
