@@ -464,10 +464,10 @@ interface defaults
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
 | Ethernet1 | P2P_LINK_TO_LEAFA201_Ethernet17 | routed | - | 10.129.4.0/31 | default | 1500 | false | - | - |
 | Ethernet2 | P2P_LINK_TO_LEAFA202_Ethernet17 | routed | - | 10.129.4.4/31 | default | 1500 | false | - | - |
-| Ethernet3 | P2P_LINK_TO_LEAFB201_Ethernet17 | routed | - | 10.129.4.8/31 | default | 1500 | false | - | - |
-| Ethernet4 | P2P_LINK_TO_LEAFB202_Ethernet17 | routed | - | 10.129.4.12/31 | default | 1500 | false | - | - |
 | Ethernet5 | P2P_LINK_TO_BLEAF201_Ethernet17 | routed | - | 10.129.4.56/31 | default | 1500 | false | - | - |
 | Ethernet6 | P2P_LINK_TO_BLEAF202_Ethernet17 | routed | - | 10.129.4.60/31 | default | 1500 | false | - | - |
+| Ethernet7 | Connection LEAFC201-E31 | routed | - | 10.129.4.92/31 | default | 1500 | false | - | - |
+| Ethernet8 | Connection LEAFC202-E31 | routed | - | 10.129.4.94/31 | default | 1500 | false | - | - |
 
 ### Ethernet Interfaces Device Configuration
 
@@ -491,24 +491,6 @@ interface Ethernet2
    ip ospf network point-to-point
    ip ospf area 0.0.0.0
 !
-interface Ethernet3
-   description P2P_LINK_TO_LEAFB201_Ethernet17
-   no shutdown
-   mtu 1500
-   no switchport
-   ip address 10.129.4.8/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
-!
-interface Ethernet4
-   description P2P_LINK_TO_LEAFB202_Ethernet17
-   no shutdown
-   mtu 1500
-   no switchport
-   ip address 10.129.4.12/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
-!
 interface Ethernet5
    description P2P_LINK_TO_BLEAF201_Ethernet17
    no shutdown
@@ -526,6 +508,27 @@ interface Ethernet6
    ip address 10.129.4.60/31
    ip ospf network point-to-point
    ip ospf area 0.0.0.0
+!
+interface Ethernet7
+   description Connection LEAFC201-E31
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.129.4.92/31
+   ip ospf network point-to-point
+   ip ospf area 0
+!
+interface Ethernet8
+   description Connection LEAFC202-E31
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.129.4.94/31
+   ip ospf network point-to-point
+   ip ospf area 0
+   ip ospf dead-interval 3
+   ip ospf hello-interval 1
+
 ```
 
 
@@ -629,7 +632,7 @@ Global ARP timeout: 270
 
 | Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
 | ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
-| 100 | 10.129.0.249 | enabled | Ethernet1 <br> Ethernet2 <br> Ethernet3 <br> Ethernet4 <br> Ethernet5 <br> Ethernet6 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+| 100 | 10.129.0.249 | enabled | Ethernet1 <br> Ethernet2 <br> Ethernet5 <br> Ethernet6 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
 
 ### OSPF Interfaces
 
@@ -637,10 +640,10 @@ Global ARP timeout: 270
 | -------- | -------- | -------- | -------- |
 | Ethernet1 | 0.0.0.0 | - | True |
 | Ethernet2 | 0.0.0.0 | - | True |
-| Ethernet3 | 0.0.0.0 | - | True |
-| Ethernet4 | 0.0.0.0 | - | True |
 | Ethernet5 | 0.0.0.0 | - | True |
 | Ethernet6 | 0.0.0.0 | - | True |
+| Ethernet7 | 0 | - | True |
+| Ethernet8 | 0 | - | True |
 | Loopback0 | 0.0.0.0 | - | - |
 
 ### Router OSPF Device Configuration
@@ -652,10 +655,10 @@ router ospf 100
    passive-interface default
    no passive-interface Ethernet1
    no passive-interface Ethernet2
-   no passive-interface Ethernet3
-   no passive-interface Ethernet4
    no passive-interface Ethernet5
    no passive-interface Ethernet6
+   no passive-interface Ethernet7
+   no passive-interface Ethernet8
    max-lsa 12000
 ```
 # AZ2
@@ -672,8 +675,6 @@ router ospf 100
 | LAB1_AZ2 | l3leaf | BLEAF202 | 10.0.0.122/24 | VEOS-LAB | Provisioned |
 | LAB1_AZ2 | l3leaf | LEAFA201 | 10.0.0.131/24 | - | Provisioned |
 | LAB1_AZ2 | l3leaf | LEAFA202 | 10.0.0.132/24 | - | Provisioned |
-| LAB1_AZ2 | l3leaf | LEAFB201 | 10.0.0.133/24 | - | Provisioned |
-| LAB1_AZ2 | l3leaf | LEAFB202 | 10.0.0.134/24 | - | Provisioned |
 | LAB1_AZ2 | spine | SPINE201 | 10.0.0.111/24 | - | Provisioned |
 | LAB1_AZ2 | spine | SPINE202 | 10.0.0.112/24 | - | Provisioned |
 
@@ -699,12 +700,6 @@ router ospf 100
 | l3leaf | LEAFA201 | Ethernet20 | mlag_peer | LEAFA202 | Ethernet20 |
 | l3leaf | LEAFA202 | Ethernet17 | spine | SPINE201 | Ethernet2 |
 | l3leaf | LEAFA202 | Ethernet18 | spine | SPINE202 | Ethernet2 |
-| l3leaf | LEAFB201 | Ethernet17 | spine | SPINE201 | Ethernet3 |
-| l3leaf | LEAFB201 | Ethernet18 | spine | SPINE202 | Ethernet3 |
-| l3leaf | LEAFB201 | Ethernet19 | mlag_peer | LEAFB202 | Ethernet19 |
-| l3leaf | LEAFB201 | Ethernet20 | mlag_peer | LEAFB202 | Ethernet20 |
-| l3leaf | LEAFB202 | Ethernet17 | spine | SPINE201 | Ethernet4 |
-| l3leaf | LEAFB202 | Ethernet18 | spine | SPINE202 | Ethernet4 |
 
 # Fabric IP Allocation
 
@@ -712,7 +707,7 @@ router ospf 100
 
 | Uplink IPv4 Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ---------------- | ------------------- | ------------------ | ------------------ |
-| 10.129.4.0/23 | 512 | 24 | 4.69 % |
+| 10.129.4.0/23 | 512 | 16 | 3.13 % |
 
 ## Point-To-Point Links Node Allocation
 
@@ -726,16 +721,12 @@ router ospf 100
 | LEAFA201 | Ethernet18 | 10.129.4.3/31 | SPINE202 | Ethernet1 | 10.129.4.2/31 |
 | LEAFA202 | Ethernet17 | 10.129.4.5/31 | SPINE201 | Ethernet2 | 10.129.4.4/31 |
 | LEAFA202 | Ethernet18 | 10.129.4.7/31 | SPINE202 | Ethernet2 | 10.129.4.6/31 |
-| LEAFB201 | Ethernet17 | 10.129.4.9/31 | SPINE201 | Ethernet3 | 10.129.4.8/31 |
-| LEAFB201 | Ethernet18 | 10.129.4.11/31 | SPINE202 | Ethernet3 | 10.129.4.10/31 |
-| LEAFB202 | Ethernet17 | 10.129.4.13/31 | SPINE201 | Ethernet4 | 10.129.4.12/31 |
-| LEAFB202 | Ethernet18 | 10.129.4.15/31 | SPINE202 | Ethernet4 | 10.129.4.14/31 |
 
 ## Loopback Interfaces (BGP EVPN Peering)
 
 | Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ------------- | ------------------- | ------------------ | ------------------ |
-| 10.129.0.0/24 | 256 | 8 | 3.13 % |
+| 10.129.0.0/24 | 256 | 6 | 2.35 % |
 | 10.129.0.248/29 | 8 | 2 | 25.0 % |
 
 ## Loopback0 Interfaces Node Allocation
@@ -746,8 +737,6 @@ router ospf 100
 | LAB1_AZ2 | BLEAF202 | 10.129.0.16/32 |
 | LAB1_AZ2 | LEAFA201 | 10.129.0.1/32 |
 | LAB1_AZ2 | LEAFA202 | 10.129.0.2/32 |
-| LAB1_AZ2 | LEAFB201 | 10.129.0.3/32 |
-| LAB1_AZ2 | LEAFB202 | 10.129.0.4/32 |
 | LAB1_AZ2 | SPINE201 | 10.129.0.249/32 |
 | LAB1_AZ2 | SPINE202 | 10.129.0.250/32 |
 
@@ -755,7 +744,7 @@ router ospf 100
 
 | VTEP Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | --------------------- | ------------------- | ------------------ | ------------------ |
-| 10.129.1.0/24 | 256 | 6 | 2.35 % |
+| 10.129.1.0/24 | 256 | 4 | 1.57 % |
 
 ## VTEP Loopback Node allocation
 
@@ -765,8 +754,6 @@ router ospf 100
 | LAB1_AZ2 | BLEAF202 | 10.129.1.15/32 |
 | LAB1_AZ2 | LEAFA201 | 10.129.1.1/32 |
 | LAB1_AZ2 | LEAFA202 | 10.129.1.1/32 |
-| LAB1_AZ2 | LEAFB201 | 10.129.1.3/32 |
-| LAB1_AZ2 | LEAFB202 | 10.129.1.3/32 |
 
 # BFD
 
