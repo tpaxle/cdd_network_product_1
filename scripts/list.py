@@ -6,6 +6,7 @@ f = open("inventory/intended/structured_configs/compare.yml", "w")
 
 f.write("compare_files:\n")
 for file in list_files:
-    f.write("\t- " + file +"\n")
+    if file != "list":
+        f.write("  - " + file.replace(".html", "") +"\n")
 
 f.close()

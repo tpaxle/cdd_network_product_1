@@ -22,7 +22,6 @@ jobs:
 
     - name: Checking Code...
       run: |
-
         pre-commit run --hook-stage commit --files ./roles/* ./playbooks/* ./inventory/* 
 
     - name: Checking Ansible configuration...
