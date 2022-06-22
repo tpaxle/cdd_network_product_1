@@ -34,7 +34,7 @@ jobs:
   cd_pro:
     environment: pro
     runs-on: lab # linux-platform, ubuntu-latest
-    needs: cd_pr3
+    needs: cd_pre
     steps:
       - name: "Deploying"
         run: echo "Deploying"
