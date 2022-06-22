@@ -453,9 +453,10 @@ vlan internal order ascending range 3800 4000
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
 | 15 | NONPRO-TIER1-LB | - |
-| 17 | NONPRO-TIER1-FRONT | - |
-| 18 | NONPRO-TIER2-BACK | - |
-| 19 | NONPRO-TIER3-LB | - |
+| 16 | NONPRO-TIER2-LB | - |
+| 17 | NONPRO-TIER3-FRONT | - |
+| 18 | NONPRO-TIER4-BACK | - |
+| 19 | NONPRO-TIER5-LB | - |
 | 504 | SBNA-EDGE-BL-NONPRO | - |
 | 3999 | MLAG_iBGP_VRF-NONPRO | LEAF_PEER_L3 |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
@@ -468,14 +469,17 @@ vlan internal order ascending range 3800 4000
 vlan 15
    name NONPRO-TIER1-LB
 !
+vlan 16
+   name NONPRO-TIER2-LB
+!
 vlan 17
-   name NONPRO-TIER1-FRONT
+   name NONPRO-TIER3-FRONT
 !
 vlan 18
-   name NONPRO-TIER2-BACK
+   name NONPRO-TIER4-BACK
 !
 vlan 19
-   name NONPRO-TIER3-LB
+   name NONPRO-TIER5-LB
 !
 vlan 504
    name SBNA-EDGE-BL-NONPRO
@@ -669,9 +673,10 @@ interface Loopback2
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan15 | NONPRO-TIER1-LB | VRF-NONPRO | - | false |
-| Vlan17 | NONPRO-TIER1-FRONT | VRF-NONPRO | - | false |
-| Vlan18 | NONPRO-TIER2-BACK | VRF-NONPRO | - | false |
-| Vlan19 | NONPRO-TIER3-LB | VRF-NONPRO | - | false |
+| Vlan16 | NONPRO-TIER2-LB | VRF-NONPRO | - | false |
+| Vlan17 | NONPRO-TIER3-FRONT | VRF-NONPRO | - | false |
+| Vlan18 | NONPRO-TIER4-BACK | VRF-NONPRO | - | false |
+| Vlan19 | NONPRO-TIER5-LB | VRF-NONPRO | - | false |
 | Vlan3999 | MLAG_PEER_L3_iBGP: vrf VRF-NONPRO | VRF-NONPRO | 1500 | false |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | false |
 | Vlan4094 | MLAG_PEER | default | 1500 | false |
@@ -681,6 +686,7 @@ interface Loopback2
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan15 |  VRF-NONPRO  |  -  |  192.168.15.1/25  |  -  |  -  |  -  |  -  |
+| Vlan16 |  VRF-NONPRO  |  -  |  192.168.16.1/25  |  -  |  -  |  -  |  -  |
 | Vlan17 |  VRF-NONPRO  |  -  |  192.168.17.1/25  |  -  |  -  |  -  |  -  |
 | Vlan18 |  VRF-NONPRO  |  -  |  192.168.18.1/25  |  -  |  -  |  -  |  -  |
 | Vlan19 |  VRF-NONPRO  |  -  |  192.168.19.1/25  |  -  |  -  |  -  |  -  |
@@ -698,20 +704,26 @@ interface Vlan15
    vrf VRF-NONPRO
    ip address virtual 192.168.15.1/25
 !
+interface Vlan16
+   description NONPRO-TIER2-LB
+   no shutdown
+   vrf VRF-NONPRO
+   ip address virtual 192.168.16.1/25
+!
 interface Vlan17
-   description NONPRO-TIER1-FRONT
+   description NONPRO-TIER3-FRONT
    no shutdown
    vrf VRF-NONPRO
    ip address virtual 192.168.17.1/25
 !
 interface Vlan18
-   description NONPRO-TIER2-BACK
+   description NONPRO-TIER4-BACK
    no shutdown
    vrf VRF-NONPRO
    ip address virtual 192.168.18.1/25
 !
 interface Vlan19
-   description NONPRO-TIER3-LB
+   description NONPRO-TIER5-LB
    no shutdown
    vrf VRF-NONPRO
    ip address virtual 192.168.19.1/25
@@ -755,6 +767,7 @@ interface Vlan4094
 | VLAN | VNI | Flood List | Multicast Group |
 | ---- | --- | ---------- | --------------- |
 | 15 | 10015 | - | - |
+| 16 | 10016 | - | - |
 | 17 | 10017 | - | - |
 | 18 | 10018 | - | - |
 | 19 | 10019 | - | - |
@@ -776,6 +789,7 @@ interface Vxlan1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
    vxlan vlan 15 vni 10015
+   vxlan vlan 16 vni 10016
    vxlan vlan 17 vni 10017
    vxlan vlan 18 vni 10018
    vxlan vlan 19 vni 10019
