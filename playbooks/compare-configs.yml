@@ -26,4 +26,3 @@
       changed_when: output.rc != 0
     - name: Debug variables
       debug: var=output.stdout_lines
-
