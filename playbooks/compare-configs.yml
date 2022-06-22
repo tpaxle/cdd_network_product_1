@@ -1,0 +1,19 @@
+- name: Clean configuration
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: "Clean folder"
+      shell: "rm -rf doc/devices/compare/*"
+      register: "output"
+      changed_when: output.rc != 0
+
+- name: "Compare configs"
+  hosts: GLOBAL
+  connection: local
+  tasks:
+    - name: "Check config"
+      shell: "python3 scripts/api.py -a inventory/intended/configs/{{ inventory_hostname }}.cfg -b doc/devices/configs/{{inventory_hostname}}.cfg -f doc/devices/compare/{{inventory_hostname}}.html"
+      register: "output"
+      changed_when: output.rc != 0
+    - name: Debug variables
+      debug: var=output.stdout_lines
