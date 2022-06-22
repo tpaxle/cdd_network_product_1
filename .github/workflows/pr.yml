@@ -17,10 +17,9 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    environment: services
+  pr:
     # The type of runner that the job will run on
-    runs-on: arista
+    runs-on: lab
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -30,17 +29,17 @@ jobs:
       run:  |
         echo ${{ secrets.VAULT_PASSWORD }} >> .vault
 
-#    - name: ansible-playbook build
-#      run:  |
-#         unset http_proxy
-#         unset HTTP_PROXY
-#         unset HTTPS_PROXY
-#         unset https_proxy
-#         ansible-playbook -i inventory/ --vault-password-file .vault --list-hosts
 
-    - name: Github Status
-      run:  |
-         git status
+    - name: Generating Code...
+      run: |
+        echo ${{ secrets.VAULT_PASSWORD }} > .vault            
+        ansible-playbook playbooks/fabric-deploy-All.yml -i inventory/ -t build --vault-password-file .vault
+
+
+    - name: Comparing Code...
+      run: |
+        echo ${{ secrets.VAULT_PASSWORD }} > .vault            
+        ansible-playbook playbooks/compare-configs.yml -i inventory/ -t build --vault-password-file .vault
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v7.0.0

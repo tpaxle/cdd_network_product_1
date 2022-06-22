@@ -10,3 +10,12 @@ custom_structured_configuration_ip_extcommunity_lists:
       extcommunities: "rt 20:20"
     - type: permit
       extcommunities: "rt 21:21"
+
+custom_structured_configuration_router_ospf:
+  process_ids:
+    100:
+      no_passive_interfaces:
+        - Ethernet7
+        - Ethernet8
+
+custom_structured_configuration_list_merge: append
