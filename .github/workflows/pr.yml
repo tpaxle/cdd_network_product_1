@@ -38,9 +38,7 @@ jobs:
 
     - name: Comparing Code...
       run: |
-        ansible-playbook playbooks/compare-configs.yml -i inventory/ --vault-password-file .vault
-        python3 scripts/list.py
-        ansible-playbook playbooks/generate_doc.yml -i inventory/ --vault-password-file .vault
+        echo "Comparing Code"
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v7.0.0
