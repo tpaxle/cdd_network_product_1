@@ -7,8 +7,13 @@ T_NONPRO:
       vrf_vni: 1000
       vtep_diagnostic:
         loopback: 2
-        loopback_ip_range: 10.215.7.0/26
+        loopback_ip_range: 192.168.7.64/26
       svis:
+        15:
+          name: NONPRO-TIER1-LB
+          enabled: true
+          tags: [NONPRO]
+          ip_address_virtual: 192.168.15.1/25
         17:
           name: NONPRO-TIER1-FRONT
           enabled: true
