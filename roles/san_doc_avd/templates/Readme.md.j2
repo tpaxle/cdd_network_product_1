@@ -63,6 +63,13 @@ invalid permissions. Please, open a ticket on the following service now path.
 - [{{ host }}](doc/devices/{{ host }}.md)
 {%         endfor %}
 
+## LAST CHANGES:
+
+{%         for sw in comparefiles %}
+- [{{ sw }}](doc/devices/compare/{{ sw }}.html)
+{%         endfor %}
+
+
 ## FAQ
 
 Below is described the work structure used on the git repo:
@@ -74,11 +81,10 @@ Below is described the work structure used on the git repo:
   the inventory is (if you use a coherent syntax)
   • ansible.cfg at the root of this repository
 
-``
+<pre><code>
     |------ inventory
     |       ├    group_vars
     |       ├    host_vars
     |       └-   inventoy.yml
     g└------ playbooks
-``
-.
+</code></pre>

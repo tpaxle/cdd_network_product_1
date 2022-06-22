@@ -7,6 +7,12 @@
         paths: doc/devices/compare/
         patterns: "*.cfg"
       register: files_to_delete
+    - name: Ansible remove file glob
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ files_to_delete.files }}"
+
 - name: "Compare configs"
   hosts: GLOBAL
   connection: local
