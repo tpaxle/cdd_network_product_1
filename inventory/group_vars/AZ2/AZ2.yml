@@ -70,6 +70,7 @@ spine:
             type: evpn
             remote_as: 64570
             description: "EVPN to pod1 Cisco"
+            route_reflector_client: true  
             next_hop_unchanged: false
             update_source: loopback0
             ebgp_multihop: 3
@@ -82,8 +83,10 @@ spine:
             peer_group: EVPN-OVERLAY-SPINES
           10.128.0.250:
             peer_group: EVPN-OVERLAY-SPINES
-          10.128.0.251:
-            peer_group: EVPN-OVERLAY-SPINES
+          10.129.0.90:
+            peer_group: EVPN-OVERLAY-PEERS-CISCO
+          10.129.0.91:
+            peer_group: EVPN-OVERLAY-PEERS-CISCO
         address_family_evpn:
           peer_groups:
             EVPN-OVERLAY-SPINES:
