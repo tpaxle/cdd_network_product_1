@@ -13,7 +13,7 @@ env:
   PACKER_VERSION: "1.7.2"
   APPLICATION_ID: "120620"
   PLAYBOOK_VERSION: "V0.5.4"
-  PROJECT: sdn-ansible-ohe-dallas-testbed
+  PROJECT: ccd_network_product_1
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,6 +35,10 @@ jobs:
     - name: ansible-playbook build
       run:  |
          ansible-playbook -i inventory/ --vault-password-file .vault playbooks/fabric-deploy-All.yml -t build
+
+    - name: Copy current confg
+      run:  |
+        copy -rp inventory/intented/configs/* doc/devices/configs/
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
@@ -99,7 +103,7 @@ jobs:
 
 
     - name: Create zip file
-      run: zip -r ${{ env.PROJECT }}_configs.zip inventory/intended/configs/
+      run: zip -r ${{ env.PROJECT }}_configs.zip inventory/intended/configs
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1.0.2
