@@ -1,6 +1,10 @@
-# Cloud and Devops Days
+# Cloud and Devops Days -- AzUWs
+
+![Topology](doc/img/AzureWS.png)
 
 ## Project
+
+![Topology](doc/img/topology.png)
 
 ## Laboratory
 
