@@ -19,8 +19,8 @@
   tasks:
     - name: "Check config"
       command: "python3 scripts/api.py \
-              -d inventory/intended/configs/{{ inventory_hostname }}.cfg \
-              -s doc/devices/configs/{{ inventory_hostname }}.cfg \
+              -b inventory/intended/configs/{{ inventory_hostname }}.cfg \
+              -a doc/devices/configs/{{ inventory_hostname }}.cfg \
               -f doc/devices/compare/{{ inventory_hostname }}.html"
       register: "output"
       changed_when: output.rc != 0
