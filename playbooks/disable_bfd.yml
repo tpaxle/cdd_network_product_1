@@ -1,0 +1,15 @@
+- name: LEAF101
+  hosts: LEAF101
+- name: for idempotency, use full-form commands
+  arista.eos.eos_config:
+    lines:
+    - no neighbor EVPN-OVERLAY-PEERS bfd
+    parents: router bgp 64501
+
+- name: LEAF102
+  hosts: LEAF102
+- name: for idempotency, use full-form commands
+  arista.eos.eos_config:
+    lines:
+    - no neighbor EVPN-OVERLAY-PEERS bfd
+    parents: router bgp 64501
