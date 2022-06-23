@@ -26,3 +26,15 @@ servers:
         mode: access
         vlans: 18
         spanning_tree_portfast: edge
+  VPCServer1:
+    rack: RackB
+    adapters:
+      - type: nic
+        rack: Virtual-1
+        server_ports: [eth0]
+        switch_ports: [Ethernet5]
+        switches: [LEAF102]
+        enabled: true
+        mode: access
+        vlans: 17
+        spanning_tree_portfast: edge
