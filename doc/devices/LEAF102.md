@@ -546,6 +546,7 @@ interface defaults
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet1 |  VPC2_VPC-nic0 | access | 18 | - | - | - |
+| Ethernet5 |  VPCServer1_eth0 | access | 17 | - | - | - |
 | Ethernet19 | MLAG_PEER_LEAF101_Ethernet19 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 19 |
 | Ethernet20 | MLAG_PEER_LEAF101_Ethernet20 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 19 |
 
@@ -567,6 +568,14 @@ interface Ethernet1
    no shutdown
    switchport
    switchport access vlan 18
+   switchport mode access
+   spanning-tree portfast
+!
+interface Ethernet5
+   description VPCServer1_eth0
+   no shutdown
+   switchport
+   switchport access vlan 17
    switchport mode access
    spanning-tree portfast
 !

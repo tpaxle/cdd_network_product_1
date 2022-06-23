@@ -77,12 +77,6 @@ invalid permissions. Please, open a ticket on the following service now path.
 
 ## LAST CHANGES:
 
-- [BLEAF101](doc/devices/compare/BLEAF101.html)
-- [BLEAF102](doc/devices/compare/BLEAF102.html)
-- [BLEAF201](doc/devices/compare/BLEAF201.html)
-- [BLEAF202](doc/devices/compare/BLEAF202.html)
-- [LEAF101](doc/devices/compare/LEAF101.html)
-- [LEAF102](doc/devices/compare/LEAF102.html)
 - [LEAFA201](doc/devices/compare/LEAFA201.html)
 - [LEAFA202](doc/devices/compare/LEAFA202.html)
 - [LEAFB101](doc/devices/compare/LEAFB101.html)
@@ -91,6 +85,12 @@ invalid permissions. Please, open a ticket on the following service now path.
 - [SPINE102](doc/devices/compare/SPINE102.html)
 - [SPINE201](doc/devices/compare/SPINE201.html)
 - [SPINE202](doc/devices/compare/SPINE202.html)
+- [BLEAF101](doc/devices/compare/BLEAF101.html)
+- [BLEAF102](doc/devices/compare/BLEAF102.html)
+- [BLEAF201](doc/devices/compare/BLEAF201.html)
+- [BLEAF202](doc/devices/compare/BLEAF202.html)
+- [LEAF101](doc/devices/compare/LEAF101.html)
+- [LEAF102](doc/devices/compare/LEAF102.html)
 
 
 ## FAQ

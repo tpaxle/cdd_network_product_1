@@ -16,6 +16,7 @@ l3leaf,LEAFA201,Ethernet17,spine,SPINE201,Ethernet1
 l3leaf,LEAFA201,Ethernet18,spine,SPINE202,Ethernet1
 l3leaf,LEAFA201,Ethernet19,mlag_peer,LEAFA202,Ethernet19
 l3leaf,LEAFA201,Ethernet20,mlag_peer,LEAFA202,Ethernet20
+l3leaf,LEAFA202,Ethernet5,server,VPCServer1,eth0
 l3leaf,LEAFA202,Ethernet10,server,f5,uplink
 l3leaf,LEAFA202,Ethernet11,server,f5,downlinks
 l3leaf,LEAFA202,Ethernet17,spine,SPINE201,Ethernet2

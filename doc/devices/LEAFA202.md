@@ -541,6 +541,7 @@ interface defaults
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
+| Ethernet5 |  VPCServer1_eth0 | access | 17 | - | - | - |
 | Ethernet10 |  f5_uplink | access | 15 | - | - | - |
 | Ethernet11 |  f5_downlinks | access | 17 | - | - | - |
 | Ethernet19 | MLAG_PEER_LEAFA201_Ethernet19 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 19 |
@@ -558,6 +559,14 @@ interface defaults
 ### Ethernet Interfaces Device Configuration
 
 ```eos
+!
+interface Ethernet5
+   description VPCServer1_eth0
+   no shutdown
+   switchport
+   switchport access vlan 17
+   switchport mode access
+   spanning-tree portfast
 !
 interface Ethernet10
    description f5_uplink
