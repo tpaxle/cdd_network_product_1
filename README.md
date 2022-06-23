@@ -1,17 +1,16 @@
-# Cloud and Devops Days -- AzUWs
+# Cloud and Devops Days
 
 ![Topology](doc/img/AzureWS.png)
 
 ## Project
-
-![Topology](doc/img/topology.png)
 
 ## Laboratory
 
 The testing lab will be deployed within the staging workload domain and the 
 following picture represent the current the logical topology:
 
-image::vm_lab.png[align="center", title-align="Diagram"]
+![Topology](doc/img/Topology.png)
+
 
 ### Requirements
 
@@ -29,7 +28,8 @@ Full documentation for the collection is available on read-the-docs:
 The following diagram represents the network physical elements that will be 
 part of the EVPN fabric deployment and the testcase scenario for OHE Dallas.
 
-image::eve_ohe_seed_dallas.png[align="center", title-align="Diagram"]
+![Topology](doc/img/Topology.png)
+
 
 ### Github
 
@@ -77,18 +77,18 @@ invalid permissions. Please, open a ticket on the following service now path.
 
 ## LAST CHANGES:
 
-- [BLEAF102](doc/devices/compare/BLEAF102.html)
 - [BLEAF101](doc/devices/compare/BLEAF101.html)
-- [BLEAF202](doc/devices/compare/BLEAF202.html)
-- [SPINE101](doc/devices/compare/SPINE101.html)
+- [BLEAF102](doc/devices/compare/BLEAF102.html)
 - [BLEAF201](doc/devices/compare/BLEAF201.html)
-- [SPINE102](doc/devices/compare/SPINE102.html)
-- [LEAFA201](doc/devices/compare/LEAFA201.html)
-- [LEAFA202](doc/devices/compare/LEAFA202.html)
+- [BLEAF202](doc/devices/compare/BLEAF202.html)
 - [LEAF101](doc/devices/compare/LEAF101.html)
 - [LEAF102](doc/devices/compare/LEAF102.html)
-- [LEAFB102](doc/devices/compare/LEAFB102.html)
+- [LEAFA201](doc/devices/compare/LEAFA201.html)
+- [LEAFA202](doc/devices/compare/LEAFA202.html)
 - [LEAFB101](doc/devices/compare/LEAFB101.html)
+- [LEAFB102](doc/devices/compare/LEAFB102.html)
+- [SPINE101](doc/devices/compare/SPINE101.html)
+- [SPINE102](doc/devices/compare/SPINE102.html)
 - [SPINE201](doc/devices/compare/SPINE201.html)
 - [SPINE202](doc/devices/compare/SPINE202.html)
 

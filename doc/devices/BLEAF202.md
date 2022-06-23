@@ -476,6 +476,7 @@ vlan internal order ascending range 3800 4000
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 10 | NONPRO-TIER0-MGMT | - |
 | 15 | NONPRO-TIER1-LB | - |
 | 16 | NONPRO-TIER2-LB | - |
 | 17 | NONPRO-TIER3-FRONT | - |
@@ -488,6 +489,9 @@ vlan internal order ascending range 3800 4000
 ## VLANs Device Configuration
 
 ```eos
+!
+vlan 10
+   name NONPRO-TIER0-MGMT
 !
 vlan 15
    name NONPRO-TIER1-LB
@@ -712,6 +716,7 @@ interface Loopback2
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
+| Vlan10 | NONPRO-TIER0-MGMT | VRF-NONPRO | - | false |
 | Vlan15 | NONPRO-TIER1-LB | VRF-NONPRO | - | false |
 | Vlan16 | NONPRO-TIER2-LB | VRF-NONPRO | - | false |
 | Vlan17 | NONPRO-TIER3-FRONT | VRF-NONPRO | - | false |
@@ -725,6 +730,7 @@ interface Loopback2
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
+| Vlan10 |  VRF-NONPRO  |  -  |  192.168.10.1/25  |  -  |  -  |  -  |  -  |
 | Vlan15 |  VRF-NONPRO  |  -  |  192.168.15.1/25  |  -  |  -  |  -  |  -  |
 | Vlan16 |  VRF-NONPRO  |  -  |  192.168.16.1/25  |  -  |  -  |  -  |  -  |
 | Vlan17 |  VRF-NONPRO  |  -  |  192.168.17.1/25  |  -  |  -  |  -  |  -  |
@@ -737,6 +743,12 @@ interface Loopback2
 ### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan10
+   description NONPRO-TIER0-MGMT
+   no shutdown
+   vrf VRF-NONPRO
+   ip address virtual 192.168.10.1/25
 !
 interface Vlan15
    description NONPRO-TIER1-LB
@@ -806,6 +818,7 @@ interface Vlan4094
 
 | VLAN | VNI | Flood List | Multicast Group |
 | ---- | --- | ---------- | --------------- |
+| 10 | 10010 | - | - |
 | 15 | 10015 | - | - |
 | 16 | 10016 | - | - |
 | 17 | 10017 | - | - |
@@ -827,6 +840,7 @@ interface Vxlan1
    vxlan source-interface Loopback1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
+   vxlan vlan 10 vni 10010
    vxlan vlan 15 vni 10015
    vxlan vlan 16 vni 10016
    vxlan vlan 17 vni 10017
