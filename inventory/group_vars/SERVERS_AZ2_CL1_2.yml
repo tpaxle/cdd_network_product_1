@@ -42,7 +42,7 @@ servers:
         rack: Virtual-1
         server_ports: [eth0]
         switch_ports: [Ethernet5]
-        switches: [LEAFA102]
+        switches: [LEAFA202]
         enabled: true
         mode: access
         vlans: 17
