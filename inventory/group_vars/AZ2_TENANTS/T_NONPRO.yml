@@ -9,6 +9,11 @@ T_NONPRO:
         loopback: 2
         loopback_ip_range: 192.168.7.64/26
       svis:
+        10:
+          name: NONPRO-TIER0-MGMT
+          enabled: true
+          tags: [NONPRO]
+          ip_address_virtual: 192.168.10.1/25      
         15:
           name: NONPRO-TIER1-LB
           enabled: true
