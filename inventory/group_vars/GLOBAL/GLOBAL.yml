@@ -65,9 +65,7 @@ banners:
     -------------------------- WARNING -------------------------------------
     | UNAUTHORISED ACCESS IS STRICTLY FORBIDDEN AND A DISCIPLINARY OFFENCE.|
     ------------------------------------------------------------------------
-      EOF
-
-
+    EOF
 
 internal_vlan_order:
   allocation: ascending
