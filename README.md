@@ -78,13 +78,13 @@ invalid permissions. Please, open a ticket on the following service now path.
 ## LAST CHANGES:
 
 - [LEAFA201](doc/devices/compare/LEAFA201.html)
-- [LEAFA202](doc/devices/compare/LEAFA202.html)
 - [LEAFB101](doc/devices/compare/LEAFB101.html)
 - [LEAFB102](doc/devices/compare/LEAFB102.html)
 - [SPINE101](doc/devices/compare/SPINE101.html)
 - [SPINE102](doc/devices/compare/SPINE102.html)
 - [SPINE201](doc/devices/compare/SPINE201.html)
 - [SPINE202](doc/devices/compare/SPINE202.html)
+- [LEAFA202](doc/devices/compare/LEAFA202.html)
 - [BLEAF101](doc/devices/compare/BLEAF101.html)
 - [BLEAF102](doc/devices/compare/BLEAF102.html)
 - [BLEAF201](doc/devices/compare/BLEAF201.html)
